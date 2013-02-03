@@ -1,0 +1,12 @@
+body {
+  padding-left: 11em;
+  font-family: Georgia, "Times New Roman",
+        Times, serif;
+  color: purple;
+  font-size:1.75em;
+  background-color: #d8da3d }
+a {
+  color: blue;
+  font-size:0.7em; }
+a:hover {color: red;}
+

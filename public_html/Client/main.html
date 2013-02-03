@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAvLefR-lJTJPJInlS0Yy25zikwbitXXsk&sensor=false">
+	</script>
+        <script src="external_js_libraries/three/three.min.js"></script>
+        <script src="calcRoute.js"></script>
+	<script src="route3d.js"></script>
+	<script src="webCam.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="communication.js"></script>
+        <script src="getOrientation.js"></script>    
+        
+	<script src="drawMap.js"></script>
+        <script src="fetchOwnCoords.js"></script>
+	<script src="external_js_libraries/contextmenu/ContextMenu.js"></script>
+
+	<link rel="stylesheet" href="default.css">            
+        <style type="text/css">
+            body{
+                        height: 100%;
+            }
+                
+            section{
+                    position:absolute;
+                    top:0px;
+                    left:0px;
+
+                    /*set the width and height to 100% of the screen*/
+                    width:100%;
+                    height:100%;
+                    display:none;               
+            }
+
+            #debug_status{
+                    z-index: 15;
+                    position:absolute;
+                    top:100px;
+                    background: white;
+                    width:200px;
+                    height:200px;
+            }
+
+            #mapContainer{
+                    z-index: 10;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%; 
+                    width:100%;
+            }
+
+            #webCamCanvasFallback {
+                    z-index: -10;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%;
+                    width:100%;
+            }
+
+            #webCamCanvas {
+                    z-index: -10;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%; 
+                    width:100%;
+            }
+
+            #route_3d {
+                    z-index: 13;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%; 
+                    width:100%;
+            }
+
+            #span {
+                background: white;
+            }
+                
+
+            /*	start styles for the ContextMenu	*/
+            .context_menu{
+                    background-color:white;
+                    border:1px solid gray;
+            }
+            .context_menu_item{
+                    padding:3px 6px;
+            }
+            .context_menu_item:hover{
+                    background-color:#CCCCCC;
+            }
+            .context_menu_separator{
+                    background-color:gray;
+                    height:1px;
+                    margin:0;
+                    padding:0;
+            }
+            #clearDirectionsItem, #getDirectionsItem{
+                    display:none;
+            }
+            /*	end styles for the ContextMenu	*/
+
+
+	</style>
+            
+
+            
+    </head>
+    <body>
+        <section id="login" style="display:block">
+	    <div id="loginContainer">
+		<form name="theForm">
+		Username: <input type="text" name="user">
+		<input type="button" value="Ready" onclick="loginPressed()"><br>
+		<hr>
+		(debug)<br>
+		Use sensor <input id="radio3" type="radio" name="group1" value="sensor" checked="checked" />
+		Map        <input id="radio1" type="radio" name="group1" value="map" />
+		Webcam     <input id="radio2" type="radio" name="group1" value="cam" />
+		</form>
+	    </div>
+        </section>
+
+
+        <section id="debug_status">
+        <p>GammaX <span id="GammaX"></span><br/>
+            BetaY <span id="BetaY"></span><br/>
+           AlphaC <span id="AlphaC"></span><br/>
+         Latitude <span id="Latitude"></span><br/>
+        Longitude <span id="Longitude"></span><br/>
+        </p>
+        </section>
+
+
+        <section id="map">
+            <div id="mapContainer"></div>
+        </section>
+
+
+        <section id="cam">
+             <canvas id="webCamCanvasFallback"></canvas>
+             <video id="webCamCanvas" autoplay="autoplay"></video>
+	     <par id="route_3d"></par>
+        </section>
+
+        <script>
+	function isElementVisible(id) {
+		var e = document.getElementById(id);
+		var state = window.getComputedStyle(e).display;
+		//console.log (state);
+
+		if(state != 'none')
+			return true;
+		else
+			return false;
+	}
+	
+	function showElement(id){
+		document.getElementById(id).style.display = 'block';
+	}
+
+	function hideElement(id){
+		document.getElementById(id).style.display = 'none';
+	}
+
+	function start() {
+                var id = Math.random();
+		fetchOwnCoords();
+		startCommunication(id);
+		localStorage.sessionId = id;
+
+		var placeholder = document.getElementById('route_3d');
+		//console.log("placeholder ="+placeholder);
+		route3dInit(placeholder);
+	}
+
+
+	function loginPressed() {
+		//console.log("LoginPressed");
+		hideElement('login');
+		showElement('debug_status');
+
+		var formfield=document.theForm.group1;
+		var startingOrientation ="default";
+		for(i=0;i<formfield.length;i++)
+			if (formfield[i].checked==true)
+				startingOrientation = formfield[i].value;
+		//console.log(startingOrientation);
+
+
+		getOrientation();
+
+		//This is the default case (we just trust sensors and getOrientation)
+		if (startingOrientation == 'sensor') {
+			return;
+		}
+
+		// These are useful if there are no sensors (even browser claims to support them)
+		if (startingOrientation == 'map') {
+			localStorage.orientationGammaX = -50;
+		}
+		else {
+			localStorage.orientationGammaX = -40;
+		}
+
+		//some sane default values
+		localStorage.orientationAlphaCompass = 0; //look to the north
+		localStorage.orientationBetaY=90; //suppose screen is landscaped
+
+		sectionChangeOnOrientationChange();
+		orientationDataToHTML();
+	}
+
+
+	window.onload = start();
+	</script> 
+
+    </body>
+</html>
