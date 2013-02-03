@@ -23,7 +23,7 @@ function route3dInit(target_element) {
 	console.log("route3dInit called");
 	//Create camera, because its rotation is bind to the sensors
 	                // PerspectiveCamera(fov,    aspect,    near, far)
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.0001, 2000 ); //works
+	camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.0001, 2000 ); //works
 	//camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.00001, 2000 );//this breaks ray-intersecting
 	//Both seems to work, what is difference?
 	renderer = new THREE.CanvasRenderer(); //This works better with Opera
@@ -33,10 +33,12 @@ function route3dInit(target_element) {
 	target_element.appendChild( renderer.domElement );
 
 //	camera.position.set(localStorage.ownLongitude, 0, localStorage.ownLatitude);
-	camera.position.set(localStorage.ownLongitude*10, 0.1, -localStorage.ownLatitude*10);
+	//camera.position.set(localStorage.ownLongitude*10, 0.1, -localStorage.ownLatitude*10);
+        camera.position.set(localStorage.ownLongitude, 0.0001, localStorage.ownLatitude);
 	//camera rotation (0,0,0) -> points to the north
 
 	scene = new THREE.Scene();
+        //scene.add(camera);
 
 	//add friends
 	//addAllFriends();
@@ -65,7 +67,7 @@ function route3dInit(target_element) {
 	drive_entry.innerHTML = "DRIVE";
 	drive_entry.onmousedown = function(event) {
 		menu_entry_clicked("DRIVE");
-	}
+	};
 	menu_div.appendChild(drive_entry);
 
 	document.body.appendChild(menu_div);
@@ -94,7 +96,7 @@ function route3d_addAllFriends() {
                //console.log(localStorage.sessionId);
 
                //do not add me, only friends
-               if (x != localStorage.sessionId){
+               if (x !== localStorage.sessionId){
                        var latitude = user_table[x].substring(0,user_table[x].indexOf(","));
                        var longitude = user_table[x].substring(user_table[x].indexOf(",")+1,user_table[x].length);
                        route3dAddFriend(x,latitude,longitude);
@@ -128,13 +130,13 @@ function route3dAddRoute(array) {
 		var lon = (array[x][1]);
 	
 		//console.log("route3dDraw: point: "+lat +","+ lon);
-		geometry.vertices.push(new THREE.Vector3(lon*10, 0, -lat*10));
+		geometry.vertices.push(new THREE.Vector3(lon, 0, lat));
 
 	}
 
 	//route is global
 	route = new THREE.Line(geometry, material);
-	scene.add(route);
+	//scene.add(route);
 
 	//update scene
 	renderer.render(scene, camera);
@@ -149,9 +151,9 @@ function route3dAddFriend(username,lat,lon) {
 	var object = new THREE.Mesh( geometry, material);
 	object.name=username;
 
-	object.position.x = lon *10;
-	object.position.y = 0;
-	object.position.z = -lat*10;
+	object.position.x = lon;
+	object.position.y = 0.01; //have to calculate how much we want to raise the object
+	object.position.z = -lat;
 
 	scene.add( object );
 	friend_objects.push( object );
@@ -159,18 +161,21 @@ function route3dAddFriend(username,lat,lon) {
 
 //shortcut for handling degrees and radians
 var degree = Math.PI / 180;
+var deg2rad = Math.PI / 180;
 function route3dUpdateCameraPosition(){
 	//Move and rotate camera.
+        //camera axis z is phone camera exis y
+	camera.position.x = localStorage.ownLongitude;
+	camera.position.z = -localStorage.ownLatitude+1;
 
-	camera.position.x = localStorage.ownLongitude *10;
-	camera.position.z = -localStorage.ownLatitude *10;
 
-	camera.rotation.y =  (localStorage.orientationAlphaCompass) * degree;
 
-	//-90 because we suppose that device is in landscape-mode
-	camera.rotation.z = (localStorage.orientationBetaY -90) * degree;
-	camera.rotation.x = (localStorage.orientationGammaX) * degree;
+	camera.rotation.y = (localStorage.orientationAlphaCompass)*deg2rad;
+	camera.rotation.z = (localStorage.orientationBetaY)*deg2rad;
+	camera.rotation.x = (localStorage.orientationGammaX-90)*deg2rad;
 
+        //camera.lookAt(60.320938888984735,0,25.084144891275255);
+        //console.log("")
 
 	//If cam-view is not visible, do no more
 	if (!isElementVisible('cam')) {
@@ -180,11 +185,11 @@ function route3dUpdateCameraPosition(){
 	renderer.render(scene, camera);
 
 	//debug messages:
-/*
+
 	var txt = "Camera: (X,Y,Z) ("+camera.position.x+" , "+camera.position.y+" , "+camera.position.z+") ";
 	var txt2= "Rotation in degrees: (x,y,z) ("+ camera.rotation.x*degree+" , "+camera.rotation.y*degree+" , "+camera.rotation.z*degree+") ";
 	console.log(txt+txt2);
-*/
+
 }
 
 

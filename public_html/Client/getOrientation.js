@@ -34,6 +34,7 @@ function getOrientation(){
 
 			//swap section based on new orientation
 			sectionChangeOnOrientationChange();
+                        setInterval(function(){route3dUpdateCameraPosition();},1000);
 
 		}, false);
 	} else {
@@ -80,19 +81,19 @@ function handleKeyPresses(evt) {
 		break;
 	case 87:
 		console.log("w");
-		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) + 1;
+		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) + 0.1;
 		break;
 	case 83:
 		console.log("s");
-		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) - 1;
+		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) - 0.1;
 		break;
 	case 81:
 		console.log("q");
-		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) + 1;
+		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) + 0.1;
 		break;
 	case 69:
 		console.log("e");
-		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) - 1;
+		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) - 0.1;
 		break;
 
 	default:
@@ -133,13 +134,13 @@ function sectionChangeOnOrientationChange(){
 	//console.log("map="+isElementVisible('map'));
 	//console.log("cam="+isElementVisible('cam'));
 
-	if ( o>-45 ) {
+	if ( o>75 ) {
 		if (!isElementVisible('cam')){
 			showElement('cam');
 			hideElement('map');
 			webCam();
 		}
-	} else {
+	} else if (o<15) {
 		if (!isElementVisible('map')) {
 			showElement('map');
 			hideElement('cam');

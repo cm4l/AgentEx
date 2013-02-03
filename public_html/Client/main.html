@@ -146,8 +146,9 @@
 
         <section id="cam">
              <canvas id="webCamCanvasFallback"></canvas>
-             <video id="webCamCanvas" autoplay="autoplay"></video>
-	     <par id="route_3d"></par>
+             <!--<video id="webCamCanvas" autoplay="autoplay"></video>-->
+        <video id="webCamCanvas" ></video>
+        <div id="route_3d"></div>
         </section>
 
         <script>
@@ -204,7 +205,7 @@
 
 		// These are useful if there are no sensors (even browser claims to support them)
 		if (startingOrientation == 'map') {
-			localStorage.orientationGammaX = -50;
+			localStorage.orientationGammaX =-50;
 		}
 		else {
 			localStorage.orientationGammaX = -40;
@@ -212,7 +213,7 @@
 
 		//some sane default values
 		localStorage.orientationAlphaCompass = 0; //look to the north
-		localStorage.orientationBetaY=90; //suppose screen is landscaped
+		localStorage.orientationBetaY=0; //suppose screen is landscaped
 
 		sectionChangeOnOrientationChange();
 		orientationDataToHTML();

@@ -35,7 +35,7 @@ map = new google.maps.Map(document.getElementById("mapContainer"), mapOptions);
 	
 var rendererOptions = {
 	map: map
-}
+};
 					
 directionsDisplay = new google.maps.DirectionsRenderer();
 directionsDisplay.setMap(map);
