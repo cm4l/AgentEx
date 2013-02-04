@@ -29,13 +29,15 @@ var server = http.createServer(function (request, response) {
 		return;
 	}
 
-	var filePath = '../client';
+	//var filePath = '../public_html/client';
+        var filePath = '../client';
+        
 	if (request.url == '/')
 		filePath = filePath + '/index.html';
 	else
 		filePath = filePath + request.url;
 
-	//console.log("LOG: looking for file '" + filePath +"'");
+	console.log("LOG: looking for file '" + filePath +"'");
          
 	var extname = path.extname(filePath);
 	var contentType = 'text/html';
