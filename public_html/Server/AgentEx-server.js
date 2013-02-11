@@ -30,7 +30,7 @@ var server = http.createServer(function (request, response) {
 	}
 
 	//var filePath = '../public_html/client';
-        var filePath = '../client';
+        var filePath = '../Client';
         
 	if (request.url == '/')
 		filePath = filePath + '/index.html';
@@ -154,4 +154,5 @@ io.sockets.on('connection', function (socket) {
 user_table["debug_person1"] = "60.320938888984735,25.084144891275255";
 user_table["debug_person2"] = "60.2720938888984735,25.084144891275255";
 user_table["debug_person3"] = "60.320938888984735,25.004144891275255";
-
+user_table["debug_person4"] = "60.169863000000001,25.000000000000000";
+user_table["debug_person5"] = "60.169863000000001,23.924144891275255";
