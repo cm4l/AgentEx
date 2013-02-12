@@ -1,17 +1,21 @@
 body {
-	height: 100%;
-	width: 95%;
-	font-family: Georgia, serif;
+	padding: 2%;
 	color: purple;
-	font-size:1.75em;
-	background-color: #d8da3d ;
+	background-color: white ;
 	margin-right: auto;
 	margin-left:auto;
 }
 
+body,	
+input,
+select,
+button {
+  /*font-family: 'Noticia Text', serif;
+    font-family: 'Georgia', serif;*/
+    font-family: 'Jura', sans-serif;
+}
 a {
 	color: blue;
-	font-size:0.7em; 
 }
 
 a:hover {
@@ -19,14 +23,44 @@ a:hover {
 }
 
 section {
+	/*Ajattelin että nämä ovat turhia, Tuire
 	position:absolute;
 	top:0px;
-	left:0px;
+	left:0px;*/
 
 	/*set the width and height to 100% of the screen*/
 	width:100%;
 	height:100%;
 	display:none;               
+}
+
+input[type=text]{
+	width:100%;
+	padding:5px;
+	border:solid 1px gray;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+}
+
+input[type=button]{
+	width:100%;
+	padding:5px;
+	font-size: medium;
+	color:white;
+	margin-top:1%;
+	background: linear-gradient(top, #757575, #4b4b4b); 
+	background: -webkit-linear-gradient(#757575, #4b4b4b); /* Safari 5.1+, Chrome 10+ */  
+    background: -o-linear-gradient(#757575, #4b4b4b);/* Opera*/
+    -moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border: none;
+}
+
+.container{
+	max-width: 418px;
+	margin:0 auto;
 }
 
 .bubble {
@@ -36,7 +70,6 @@ section {
    color:#000;
    background:#f3961c;
 
-   /* css3 */
    -moz-border-radius:10px;
    -webkit-border-radius:10px;
    border-radius:10px;
@@ -48,7 +81,7 @@ section {
    display:block; /* reduce the damage in FF3.0 */
    position:absolute;
    bottom:-13px;
-   left:50px;
+   right:50px;
    width:0;
    border-width:15px 15px 0;
    border-style:solid;
@@ -56,14 +89,15 @@ section {
 }
 
 .disclaimer{
-	font-size: small;
+	font-size: x-small;
+	font-family: sans-serif;
 }
 
 #debug_status {
 	z-index: 15;
 	position:absolute;
 	top:100px;
-	background: white;
+	background: transparent;
 	width:200px;
 	height:200px;
 }
