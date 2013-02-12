@@ -13,20 +13,46 @@ function getOrientation(){
     
 	if (window.DeviceOrientationEvent) {
 		console.log("browser/device claims to support orientation events");
+                
+                if (Modernizr.localstorage) {
+                    // window.localStorage is available!
+                    console.log("localstorage supported by browser");
+                } else {
+                    console.log("localstorage NOT supported by browser");
+                    // no native support for local storage :(
+                    // maybe try Gears or another third-party solution
+                }
 
 		//add listener
-		window.addEventListener('deviceorientation', function(eventData) {
+              
+                   
+		window.addEventListener('deviceorientation', orientation, true);                    
+                
+                
+                
+                
+                
+	} else {
+		console.log("DeviceOrientation is not supported");
+	}
+
+
+            function orientation(eventData) {
 			// gamma is the left-to-right tilt in degrees, where right is positive
-			// console.log("Deviceorientation event triggered");
-			if ( eventData.gamma != null) //e.g. chrome on desktop sends null if there are no sensors
+                        // console.log("Deviceorientation event triggered");
+                        
+                        try {
+
+                        console.log(eventData.beta);
+			//if ( eventData.gamma != null) //e.g. chrome on desktop sends null if there are no sensors
 			        localStorage.orientationGammaX =  eventData.gamma;
 
 			// beta is the front-to-back tilt in degrees, where front is positive
-			if (eventData.beta != null)
+			//if (eventData.beta != null)
 				localStorage.orientationBetaY = eventData.beta;
 
 			// alpha is the compass direction the device is facing in degrees
-			if (eventData.alpha != null)
+			//if (eventData.alpha != null)
 				localStorage.orientationAlphaCompass = eventData.alpha;
         
 			// for debugging: show values
@@ -35,11 +61,14 @@ function getOrientation(){
 			//swap section based on new orientation
 			sectionChangeOnOrientationChange();
                         setInterval(function(){route3dUpdateCameraPosition();},1000);
+                        
+                        }
+                        catch(err){
+                        console.log(err.message);
+                        }
+                        
 
-		}, false);
-	} else {
-		console.log("DeviceOrientation is not supported");
-	}
+		}
 
 
 }
@@ -81,19 +110,19 @@ function handleKeyPresses(evt) {
 		break;
 	case 87:
 		console.log("w");
-		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) + 0.1;
+		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) + 1;
 		break;
 	case 83:
 		console.log("s");
-		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) - 0.1;
+		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) - 1;
 		break;
 	case 81:
 		console.log("q");
-		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) + 0.1;
+		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) + 1;
 		break;
 	case 69:
 		console.log("e");
-		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) - 0.1;
+		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) - 1;
 		break;
 
 	default:
