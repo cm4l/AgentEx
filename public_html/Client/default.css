@@ -4,9 +4,133 @@ body {
         Times, serif;
   color: purple;
   font-size:1.75em;
-  background-color: #d8da3d }
+  background-color: #d8da3d ;
+  height: 100%;
+}
 a {
   color: blue;
   font-size:0.7em; }
 a:hover {color: red;}
+
+
+                
+            section{
+                    position:absolute;
+                    top:0px;
+                    left:0px;
+
+                    /*set the width and height to 100% of the screen*/
+                    width:100%;
+                    height:100%;
+                    display:none;               
+            }
+
+            #debug_status{
+                    z-index: 15;
+                    position:absolute;
+                    top:100px;
+                    background: white;
+                    width:200px;
+                    height:200px;
+            }
+
+            #mapContainer{
+                    z-index: 10;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%; 
+                    width:100%;
+            }
+
+            #webCamCanvasFallback {
+                    z-index: -10;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%;
+                    width:100%;
+            }
+
+            #webCamCanvas {
+                    z-index: -10;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%; 
+                    width:100%;
+            }
+
+            #route_3d {
+                    z-index: 13;
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    height:100%; 
+                    width:100%;
+            }
+            
+            #sideMenu {
+                
+                    z-index: 20;
+                    position: absolute;       
+                    right:1px;
+                    top:0px;
+                    height:100%;
+                    width:15%;
+                    
+                    background: burlywood;
+                
+            }
+
+            #span {
+                background: white;
+            }
+                
+
+            /*	start styles for the ContextMenu	*/
+            .context_menu{
+                    background-color:white;
+                    border:1px solid gray;
+            }
+            .context_menu_item{
+                    padding:3px 6px;
+            }
+            .context_menu_item:hover{
+                    background-color:#CCCCCC;
+            }
+            .context_menu_separator{
+                    background-color:gray;
+                    height:1px;
+                    margin:0;
+                    padding:0;
+            }
+            #clearDirectionsItem, #getDirectionsItem{
+                    display:none;
+            }
+            
+            
+            
+            
+            #markerInfo {
+                
+                font-size: 0.7em;
+            }
+            
+            #menuToggle {
+                
+                z-index: 30;
+                    position: absolute;       
+                    right:0px;
+                    bottom:0px;
+                    height:8%;
+                    width:8%;
+                    
+                    background: hotpink;
+            }
+            
+            #sideMenu ul li {
+                
+                font-size:0.7em;
+            }
 

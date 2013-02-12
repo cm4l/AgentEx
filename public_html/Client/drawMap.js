@@ -57,6 +57,8 @@ for (x in user_table)  {
 	else {
 		desc = "user:"+x;
 	}
+    
+        
 	var marker = new google.maps.Marker({
 		position: friendCoords,
 		map: map,
@@ -65,6 +67,18 @@ for (x in user_table)  {
 
 	//add context menu to the friends (not for user)
 	if (thisIsFriend) {
+            
+            
+            var contentString = '<div id="markerInfo">'+
+                        '<p><b>'+desc+ '</b></p>'+
+                        '</div>';
+    
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            //make the infoWindow visible by default
+                //infowindow.open(map,marker);
+                
 		var contextMenuOptions={};
 		contextMenuOptions.classNames={menu:'context_menu', menuSeparator:'context_menu_separator'};
 

@@ -26,7 +26,7 @@ function getOrientation(){
 		//add listener
               
                    
-		window.addEventListener('deviceorientation', orientation, true);                    
+		window.addEventListener('deviceorientation', orientation, false);                    
                 
                 
                 
@@ -37,34 +37,35 @@ function getOrientation(){
 	}
 
 
-            function orientation(eventData) {
+            function orientation(event) {
 			// gamma is the left-to-right tilt in degrees, where right is positive
                         // console.log("Deviceorientation event triggered");
                         
                         try {
 
-                        console.log(eventData.beta);
+                        //console.log(event.beta);
 			//if ( eventData.gamma != null) //e.g. chrome on desktop sends null if there are no sensors
-			        localStorage.orientationGammaX =  eventData.gamma;
+			        localStorage.orientationGammaX =  event.gamma;
 
 			// beta is the front-to-back tilt in degrees, where front is positive
 			//if (eventData.beta != null)
-				localStorage.orientationBetaY = eventData.beta;
+				localStorage.orientationBetaY = event.beta;
 
 			// alpha is the compass direction the device is facing in degrees
 			//if (eventData.alpha != null)
-				localStorage.orientationAlphaCompass = eventData.alpha;
+				localStorage.orientationAlphaCompass = event.alpha;
         
 			// for debugging: show values
+                        setInterval(function(){route3dUpdateCameraPosition();},1000);
 			orientationDataToHTML();
 
 			//swap section based on new orientation
 			sectionChangeOnOrientationChange();
-                        setInterval(function(){route3dUpdateCameraPosition();},1000);
+                        
                         
                         }
                         catch(err){
-                        console.log(err.message);
+                        console.log("DeviceOrientation error: "+err.message);
                         }
                         
 

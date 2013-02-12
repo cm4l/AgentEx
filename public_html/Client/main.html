@@ -8,6 +8,8 @@
 	</script>
         <script src="external_js_libraries/modernizr.custom.js"></script>
         <script src="external_js_libraries/three/three.min.js"></script>
+        <script src="location.js"></script>
+        <script src="sideMenu.js"></script>
         <script src="calcRoute.js"></script>
 	<script src="route3d.js"></script>
 	<script src="webCam.js"></script>
@@ -19,100 +21,7 @@
         <script src="fetchOwnCoords.js"></script>
 	<script src="external_js_libraries/contextmenu/ContextMenu.js"></script>
 
-	<link rel="stylesheet" href="default.css">            
-        <style type="text/css">
-            body{
-                        height: 100%;
-            }
-                
-            section{
-                    position:absolute;
-                    top:0px;
-                    left:0px;
-
-                    /*set the width and height to 100% of the screen*/
-                    width:100%;
-                    height:100%;
-                    display:none;               
-            }
-
-            #debug_status{
-                    z-index: 15;
-                    position:absolute;
-                    top:100px;
-                    background: white;
-                    width:200px;
-                    height:200px;
-            }
-
-            #mapContainer{
-                    z-index: 10;
-                    position:absolute;
-                    left:0px;
-                    top:0px;
-                    height:100%; 
-                    width:100%;
-            }
-
-            #webCamCanvasFallback {
-                    z-index: -10;
-                    position:absolute;
-                    left:0px;
-                    top:0px;
-                    height:100%;
-                    width:100%;
-            }
-
-            #webCamCanvas {
-                    z-index: -10;
-                    position:absolute;
-                    left:0px;
-                    top:0px;
-                    height:100%; 
-                    width:100%;
-            }
-
-            #route_3d {
-                    z-index: 13;
-                    position:absolute;
-                    left:0px;
-                    top:0px;
-                    height:100%; 
-                    width:100%;
-            }
-
-            #span {
-                background: white;
-            }
-                
-
-            /*	start styles for the ContextMenu	*/
-            .context_menu{
-                    background-color:white;
-                    border:1px solid gray;
-            }
-            .context_menu_item{
-                    padding:3px 6px;
-            }
-            .context_menu_item:hover{
-                    background-color:#CCCCCC;
-            }
-            .context_menu_separator{
-                    background-color:gray;
-                    height:1px;
-                    margin:0;
-                    padding:0;
-            }
-            #clearDirectionsItem, #getDirectionsItem{
-                    display:none;
-            }
-            /*	end styles for the ContextMenu	*/
-
-
-	</style>
-            
-
-            
+	<link rel="stylesheet" href="default.css">                       
     </head>
     <body>
         <section id="login" style="display:block">
@@ -151,6 +60,22 @@
        
         <div id="route_3d"></div>
         </section>
+        
+        
+        
+        <section id="sideMenuSection">
+            <div id="sideMenu">
+                <p>Side menu</p>
+                <ul id="sideMenuObjectList">    
+                    
+                </ul>
+            </div>  
+        </section>
+        
+        <section id="menuToggleSection">
+            <div id="menuToggle" onclick="runMenuToggle();"></div>
+            
+        </section>
 
         <script>
 	function isElementVisible(id) {
@@ -173,6 +98,7 @@
 	}
 
 	function start() {
+                console.log("<check> Main.html loaded successfully");
                 var id = Math.random();
 		fetchOwnCoords();
 		startCommunication(id);
@@ -188,6 +114,8 @@
 		//console.log("LoginPressed");
 		hideElement('login');
 		showElement('debug_status');
+                //showElement('sideMenu');
+                showElement('menuToggleSection');
 
 		var formfield=document.theForm.group1;
 		var startingOrientation ="default";
@@ -220,6 +148,17 @@
 		orientationDataToHTML();
 	}
 
+
+        function runMenuToggle(){
+            if (isElementVisible('sideMenuSection')) {
+                hideElement('sideMenuSection');
+            }else {
+                showElement('sideMenuSection');
+            }
+                
+            
+            
+        }
 
 	window.onload = start();
 	</script> 
