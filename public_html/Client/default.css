@@ -10,16 +10,22 @@ body,
 input,
 select,
 button {
-  /*font-family: 'Noticia Text', serif;
-    font-family: 'Georgia', serif;*/
-    font-family: 'Jura', sans-serif;
+	font-family: 'Jura', sans-serif;
 }
+
 a {
 	color: blue;
 }
 
 a:hover {
 	color: red;
+}
+
+img{
+	display:block;
+	margin: 0.1em 1em 0.2em 0;
+	float:right;
+	width:35%;
 }
 
 section {
@@ -51,8 +57,8 @@ input[type=button]{
 	margin-top:1%;
 	background: linear-gradient(top, #757575, #4b4b4b); 
 	background: -webkit-linear-gradient(#757575, #4b4b4b); /* Safari 5.1+, Chrome 10+ */  
-    background: -o-linear-gradient(#757575, #4b4b4b);/* Opera*/
-    -moz-border-radius:5px;
+	background: -o-linear-gradient(#757575, #4b4b4b);/* Opera*/
+	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
 	border: none;
@@ -64,28 +70,28 @@ input[type=button]{
 }
 
 .bubble {
-   position:relative;
-   padding:15px;
-   margin:1em 0 3em;
-   color:#000;
-   background:#f3961c;
+	position:relative;
+	padding:15px;
+	margin: 1em 0 0.5em 0;
+	color:#000;
+	background:#F7EFF7;//orange: #f3961c;
 
-   -moz-border-radius:10px;
-   -webkit-border-radius:10px;
-   border-radius:10px;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
 }
 
 /* creates triangle */
 .bubble:after {
-   content:"";
-   display:block; /* reduce the damage in FF3.0 */
-   position:absolute;
-   bottom:-13px;
-   right:50px;
-   width:0;
-   border-width:15px 15px 0;
-   border-style:solid;
-   border-color:#f3961c transparent;
+	content:"";
+	display:block; /* reduce the damage in FF3.0 */
+	position:absolute;
+	bottom:-13px;
+	right:80px;
+	width:0;
+	border-width:15px 15px 0;
+	border-style:solid;
+	border-color:#F7EFF7 transparent;//orange: #f3961c transparent;
 }
 
 .disclaimer{
