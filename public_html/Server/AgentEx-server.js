@@ -7,27 +7,124 @@ var PORT = 9002;
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+var url = require('url');
 
 //contains players, current task and level
 var player_table = [
-           {
-            "name":"null",
-            "id":"1"
-           },
-           {
-            "name":"null",
-            "id":"2"
-           },
-           {
-            "name":"null",
-            "id":"3"
-           }
-          ];
+	{
+		"name":"null",
+		"id":"1"
+	},
+	{
+		"name":"null",
+		"id":"2"
+	},
+	{
+		"name":"null",
+		"id":"3"
+	}
+];
+
+function getContentType(extname){
+	switch (extname) {
+		case '.js':
+			return 'text/javascript';
+		case '.css':
+			return 'text/css';
+		case '.jpg':
+		case '.jpeg':
+			return 'image/jpeg';
+		case '.png':
+			return 'image/png';
+		default:
+			return 'text/html';
+	}
+}
+
+function serveFile(filePath, response) {
+	console.log("LOG: looking for file '" + filePath +"'");
+         
+	var extname = path.extname(filePath);
+	var contentType = getContentType(extname);
+
+	path.exists(filePath, function(exists) {
+		if (exists) {
+			fs.readFile(filePath, function(error, content) {
+				if (error) {
+					response.writeHead(500);
+					response.end();
+				}
+				else {
+					response.writeHead(200, { 'Content-Type': contentType });
+					response.end(content, 'utf-8');
+				}
+			});
+	     } else {
+			response.writeHead(404);
+			response.write("No page '"+ filePath + "'");
+			response.end();
+		}
+	});
+}
+
+function register(query, post, response){
+	return true; //TODO
+}
+
+function loginWithId(clientId){
+	return true; //TODO 
+}
+
+function loginWithPwd(name, pwd){
+	return true; //TODO
+}
+
+function login(post, response){
+	var authorized = false;
+	if(post!==undefined){
+		if(post.clientId!==undefined){
+			authorized = loginWithId(post.clientId);
+		} else if ( post.name !== undefined && post.pwd !== undefined){
+			authorized = loginWithPwd(post.name, post.pwd);
+		}
+	}
+
+	if(authorized){
+		response.writeHead(301, { 'Location': 'main.html'});
+	        response.end();
+	} else {
+		serveFile('../Client/index.html', response);
+	}
+}
+
+
+function routeRequest(path, response, getData, postData){
+	var filePath;
+	filePath = '../Client';
+
+	switch(path){
+		case '/':
+			return serveFile(filePath + '/index.html', response);
+		case '/Register':
+			return register(getData, postData, response);
+		case '/Login':
+			return login(postData, response);
+		default:
+			return serveFile(filePath + path, response);
+	}
+}
  
 var server = http.createServer(function (request, response) {
-	//console.log("LOG: requesting: '" + request.url +"'");
+	console.log("LOG: requesting: '" + request.url +"'");
 
-	if (request.url.substring(1,16) == "friendfind.html") {
+	var getData, postData, urlData, filePath;
+	urlData = url.parse(request.url, true);
+	getData = urlData.query;
+	//console.log("Parsed: "+ urlData.pathname);
+	//console.log("Data", JSON.stringify(queryData));
+
+	/* Tuire: Never used?!?! 
+	if (urlData.pathname === "friendfind.html") {
 		var user = request.url.substring(22,request.url.indexOf("&"));
                 player_table[0].name = user;
 		var startingOrientation = request.url.substring(request.url.indexOf("&")+13,request.url.length);
@@ -44,60 +141,26 @@ var server = http.createServer(function (request, response) {
 	        response.end();
 
 		return;
+	}*/
+	if(request.method ==='POST'){
+		var querystring = require('querystring');
+		var data = '';
+		request.on('data', function(chunk) {
+		  data += chunk;
+		});
+		request.on('end', function() {
+		  postData = querystring.parse(data);
+		  //routing happens after all post data is read
+		  routeRequest(urlData.pathname, response, getData, postData); 
+		});
+	} else { //GET
+		routeRequest(urlData.pathname, response, getData, postData);
 	}
-
-	//var filePath = '../public_html/client';
-        var filePath = '../Client';
-        
-	if (request.url == '/')
-		filePath = filePath + '/index.html';
-	else
-		filePath = filePath + request.url;
-
-	console.log("LOG: looking for file '" + filePath +"'");
-         
-	var extname = path.extname(filePath);
-	var contentType = 'text/html';
-
-	switch (extname) {
-	case '.js':
-		contentType = 'text/javascript';
-		break;
-	case '.css':
-		contentType = 'text/css';
-		break;
-	case '.jpg':
-	case '.jpeg':
-		contentType = 'image/jpeg';
-		break;
-	case '.png':
-		contentType = 'image/png';
-		break;
-	}
-
-	path.exists(filePath, function(exists) {
-		if (exists) {
-			fs.readFile(filePath, function(error, content) {
-				if (error) {
-					response.writeHead(500);
-					response.end();
-				}
-				else {
-					response.writeHead(200, { 'Content-Type': contentType });
-					response.end(content, 'utf-8');
-				}
-			});
-	        }
-        	else {
-			response.writeHead(404);
-			response.write("No page '"+ request.url + "'");
-			response.end();
-		}
-	});
 });
 
-var io = require('socket.io').listen(server);
 server.listen(PORT);
+
+var io = require('socket.io').listen(server);
 io.set('transports');
 
 // log level 0 or 1 : info output
@@ -106,9 +169,6 @@ io.set( 'log level', 2 );
 
 //contains userids and coordinates
 var user_table = {};
-
-
-
 
 function sendCoordinatesToEverybody() {
 	var txt = JSON.stringify(user_table);

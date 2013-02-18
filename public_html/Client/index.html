@@ -2,6 +2,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width">
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<link href='http://fonts.googleapis.com/css?family=Jura:400,600' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="default.css">
 </head>
@@ -15,10 +16,15 @@
 		</div>
 		<img src="images/agentti_torso_th.png"alt="agent"/>
 		<div id="register" style="clear:both;">
-			<label for="name">Codename</label> </br>
-			<input id="name" type= "text"></input> </br>
-			<input type="button" value="Register"></input>
-			<a href="main.html">Move on</a>
+			<form action="Login" method="post">
+				<label for="name">Codename</label> </br>
+				<input id="name" name="name" type= "text"></input> </br>
+				<label for="pwd">Password</label> </br>
+				<input id="pwd" name="pwd" type="password"></input> </br>
+				<input type="submit" value="Login"></input>
+				<input id="clientId" name="clientId" type="hidden"/>
+				<a href="Login?clientId=1">Move on</a>
+			</form>
 		</div>
 
 		<div id="disclaimer" class="disclaimer">
@@ -30,6 +36,18 @@
 		</div>
 
 	</div>
-
+<script type="text/javascript">
+	 $(document).ready(function() {
+		if(localStorage.clientId===undefined){
+			localStorage.clientId= '1234567';
+		}
+		if(localStorage.name===undefined){
+			localStorage.name='Testihenkilö';
+		}
+		$('#clientId').val(localStorage.clientId);
+		$('#name').val(localStorage.name);
+		$('#pwd').val('salainensalasana');
+	 });
+</script>
 </body>
 </html>
