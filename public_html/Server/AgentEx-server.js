@@ -67,8 +67,24 @@ function serveFile(filePath, response) {
 	});
 }
 
-function register(query, post, response){
-	return true; //TODO
+function newUser(name, pwd){
+	//TODO saving, generate&return client id to store on localstore
+	return true;
+}
+
+function register(post, response){
+	var success = false;
+	if(post!==undefined){
+		if ( post.name !== undefined && post.pwd1 !== undefined){
+			success =newUser(post.name, post.pwd1);
+		}
+	}
+	if(success){
+		response.writeHead(301, { 'Location': 'main.html'});
+	        response.end();
+	} else {
+		serveFile('../Client/index.html', response);
+	}
 }
 
 function loginWithId(clientId){
@@ -97,16 +113,15 @@ function login(post, response){
 	}
 }
 
-
 function routeRequest(path, response, getData, postData){
 	var filePath;
 	filePath = '../Client';
-
+	console.log('register hit 0');
 	switch(path){
 		case '/':
 			return serveFile(filePath + '/index.html', response);
 		case '/Register':
-			return register(getData, postData, response);
+			return register(postData, response);
 		case '/Login':
 			return login(postData, response);
 		default:
@@ -150,7 +165,7 @@ var server = http.createServer(function (request, response) {
 		});
 		request.on('end', function() {
 		  postData = querystring.parse(data);
-		  //routing happens after all post data is read
+		  //routing called after all POST data is read
 		  routeRequest(urlData.pathname, response, getData, postData); 
 		});
 	} else { //GET

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -15,15 +16,31 @@
 			Welcome to MIB! We need you to collect artifacts to help us stop the alien invation. Give your codename and we'll give you a mission.
 		</div>
 		<img src="images/agentti_torso_th.png"alt="agent"/>
-		<div id="register" style="clear:both;">
+		<div id="loginDiv" style="clear:both;">
+			<p style="text-align:right">
+				<a id="toRegister" href="" onclick="return false;">Register</a>
+			</p>
 			<form action="Login" method="post">
-				<label for="name">Codename</label> </br>
-				<input id="name" name="name" type= "text"></input> </br>
-				<label for="pwd">Password</label> </br>
-				<input id="pwd" name="pwd" type="password"></input> </br>
+				<label for="name">Codename</label></br>
+				<input id="name" name="name" type= "text"></input></br>
+				<label for="pwd">Password</label></br>
+				<input id="pwd" name="pwd" type="password"></input></br>
 				<input type="submit" value="Login"></input>
 				<input id="clientId" name="clientId" type="hidden"/>
-				<a href="Login?clientId=1">Move on</a>
+			</form>
+		</div>
+		<div id="registerDiv" class="hidden" style="clear:both;">
+			<p style="text-align:right">
+				<a href="" id="toLogin" onclick="return false;">Log in</a>
+			</p>
+			<form id="registerForm" action="Register" method="post">
+				<label for="name">Codename</label></br>
+				<input id="name" name="name" type= "text"></input></br>
+				<label for="pwd1">Password</label></br>
+				<input id="pwd1" name="pwd1" type="password"></input></br>
+				<label for="pwd2">Confirm password</label></br>
+				<input id="pwd2" name="pwd2" type="password"></input></br>
+				<input id="register" type="button" onclick="return false;" value="Register"></input>
 			</form>
 		</div>
 
@@ -37,7 +54,35 @@
 
 	</div>
 <script type="text/javascript">
+	function passwordsMatch(){
+		var pwd1, pwd2;
+		pwd1= $('#pwd1').val();
+		pwd2= $('#pwd2').val();
+		if(pwd1===pwd2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	 $(document).ready(function() {
+	 	$('#toLogin').on('click', function () {
+	 		$('#loginDiv').removeClass('hidden');
+	 		$('#registerDiv').addClass('hidden');
+	 	});
+	 	$('#toRegister').on('click', function () {
+	 		$('#registerDiv').removeClass('hidden');
+	 		$('#loginDiv').addClass('hidden');
+	 	});
+
+	 	$('#register').on('click', function () {
+	 		if(passwordsMatch()){
+	 			$('#registerForm').submit();
+	 		} else{
+	 			alert("Passwords must match.")
+	 		}
+	 	});
+
 		if(localStorage.clientId===undefined){
 			localStorage.clientId= '1234567';
 		}
