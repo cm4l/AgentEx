@@ -33,6 +33,12 @@ img{
 	width:35%;
 }
 
+#playerImg{
+	float:left;
+        border-style: solid;
+        border-width: 1px;
+}
+
 section {
 	/*Ajattelin että nämä ovat turhia, Tuire
 	position:absolute;
@@ -110,6 +116,15 @@ input[type=button], input[type=submit]{
 .disclaimer{
 	font-size: x-small;
 	font-family: sans-serif;
+}
+
+.block{
+        width: 100%;
+        clear: both;
+}
+
+#playerInfo{
+        list-style: none;
 }
 
 #debug_status {
