@@ -25,112 +25,111 @@ var player_table = [
 	}
 ];
 
-function getContentType(extname){
+function getContentType(extname) {
 	switch (extname) {
-		case '.js':
-			return 'text/javascript';
-		case '.css':
-			return 'text/css';
-		case '.jpg':
-		case '.jpeg':
-			return 'image/jpeg';
-		case '.png':
-			return 'image/png';
-		default:
-			return 'text/html';
+	case '.js':
+		return 'text/javascript';
+	case '.css':
+		return 'text/css';
+	case '.jpg':
+	case '.jpeg':
+		return 'image/jpeg';
+	case '.png':
+		return 'image/png';
+	default:
+		return 'text/html';
 	}
 }
 
 function serveFile(filePath, response) {
-	console.log("LOG: looking for file '" + filePath +"'");
-         
+	console.log("LOG: looking for file '" + filePath + "'");
+
 	var extname = path.extname(filePath);
 	var contentType = getContentType(extname);
 
-	path.exists(filePath, function(exists) {
+	path.exists(filePath, function (exists) {
 		if (exists) {
-			fs.readFile(filePath, function(error, content) {
+			fs.readFile(filePath, function (error, content) {
 				if (error) {
 					response.writeHead(500);
 					response.end();
-				}
-				else {
+				} else {
 					response.writeHead(200, { 'Content-Type': contentType });
 					response.end(content, 'utf-8');
 				}
 			});
-	     } else {
+		} else {
 			response.writeHead(404);
-			response.write("No page '"+ filePath + "'");
+			response.write("No page '" + filePath + "'");
 			response.end();
 		}
 	});
 }
 
-function newUser(name, pwd){
+function newUser(name, pwd) {
 	//TODO saving, generate&return client id to store on localstore
 	return true;
 }
 
-function register(post, response){
+function register(post, response) {
 	var success = false;
-	if(post!==undefined){
-		if ( post.name !== undefined && post.pwd1 !== undefined){
-			success =newUser(post.name, post.pwd1);
+	if (post !== undefined) {
+		if (post.name !== undefined && post.pwd1 !== undefined) {
+			success = newUser(post.name, post.pwd1);
 		}
 	}
-	if(success){
+	if (success) {
 		response.writeHead(301, { 'Location': 'main.html'});
-	        response.end();
+	    response.end();
 	} else {
 		serveFile('../Client/index.html', response);
 	}
 }
 
-function loginWithId(clientId){
-	return true; //TODO 
-}
-
-function loginWithPwd(name, pwd){
+function loginWithId(clientId) {
 	return true; //TODO
 }
 
-function login(post, response){
+function loginWithPwd(name, pwd) {
+	return true; //TODO
+}
+
+function login(post, response) {
 	var authorized = false;
-	if(post!==undefined){
-		if(post.clientId!==undefined){
+	if (post !== undefined) {
+		if (post.clientId !== undefined) {
 			authorized = loginWithId(post.clientId);
-		} else if ( post.name !== undefined && post.pwd !== undefined){
+		} else if (post.name !== undefined && post.pwd !== undefined) {
 			authorized = loginWithPwd(post.name, post.pwd);
 		}
 	}
 
-	if(authorized){
+	if (authorized) {
 		response.writeHead(301, { 'Location': 'main.html'});
-	        response.end();
+	    response.end();
 	} else {
 		serveFile('../Client/index.html', response);
 	}
 }
 
-function routeRequest(path, response, getData, postData){
+function routeRequest(path, response, getData, postData) {
 	var filePath;
 	filePath = '../Client';
 	console.log('register hit 0');
-	switch(path){
-		case '/':
-			return serveFile(filePath + '/index.html', response);
-		case '/Register':
-			return register(postData, response);
-		case '/Login':
-			return login(postData, response);
-		default:
-			return serveFile(filePath + path, response);
+	switch (path) {
+	case '/':
+		return serveFile(filePath + '/index.html', response);
+	case '/Register':
+		return register(postData, response);
+	case '/Login':
+		return login(postData, response);
+	default:
+		return serveFile(filePath + path, response);
 	}
 }
- 
+
 var server = http.createServer(function (request, response) {
-	console.log("LOG: requesting: '" + request.url +"'");
+	console.log("LOG: requesting: '" + request.url + "'");
 
 	var getData, postData, urlData, filePath;
 	urlData = url.parse(request.url, true);
@@ -157,16 +156,16 @@ var server = http.createServer(function (request, response) {
 
 		return;
 	}*/
-	if(request.method ==='POST'){
+	if (request.method === 'POST') {
 		var querystring = require('querystring');
 		var data = '';
-		request.on('data', function(chunk) {
-		  data += chunk;
+		request.on('data', function (chunk) {
+			data += chunk;
 		});
-		request.on('end', function() {
-		  postData = querystring.parse(data);
-		  //routing called after all POST data is read
-		  routeRequest(urlData.pathname, response, getData, postData); 
+		request.on('end', function () {
+			postData = querystring.parse(data);
+			//routing called after all POST data is read
+			routeRequest(urlData.pathname, response, getData, postData);
 		});
 	} else { //GET
 		routeRequest(urlData.pathname, response, getData, postData);
