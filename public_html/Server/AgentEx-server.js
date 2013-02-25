@@ -9,21 +9,6 @@ var fs = require('fs');
 var path = require('path');
 var url = require('url');
 
-//contains players, current task and level
-var player_table = [
-	{
-		"name":"null",
-		"id":"1"
-	},
-	{
-		"name":"null",
-		"id":"2"
-	},
-	{
-		"name":"null",
-		"id":"3"
-	}
-];
 
 function getContentType(extname) {
 	switch (extname) {
