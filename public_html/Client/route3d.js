@@ -23,7 +23,7 @@ function route3dInit(target_element) {
 	console.log("route3dInit called");
 	//Create camera, because its rotation is bind to the sensors
 	                // PerspectiveCamera(fov,    aspect,    near, far)
-	camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.0001, 2000 ); //works
+	camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.0001, 1 ); //works
 	//camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.00001, 2000 );//this breaks ray-intersecting
 	//Both seems to work, what is difference?
 	renderer = new THREE.CanvasRenderer(); //This works better with Opera
@@ -157,6 +157,10 @@ function route3dAddFriend(username,lat,lon) {
 
 	scene.add( object );
 	friend_objects.push( object );
+        
+        //lets calculate distance to object here
+        var dist = calcDistance(localStorage.ownLatitude,localStorage.ownLongitude,lat,lon);
+        console.log("distance to object "+object.name+" is "+dist+" km");
 }
 
 //shortcut for handling degrees and radians
