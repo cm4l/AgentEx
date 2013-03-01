@@ -50,18 +50,53 @@ function serveFile(filePath, response) {
 		}
 	});
 }
+function readJSON(callback, parameters) {
+    fs = require('fs');
+    console.log("reading");
+    var file = 'players.json';
+        fs.readFile(file, 'utf8', function (err, data) {
+            if (err) {
+                console.log('Error: ' + err);
+                return err;
+            }
+      callback(JSON.parse(data), parameters);  
+    });
+          
+}
 
-function newUser(name, pwd) {
+function saveJSON(object){
+     fs = require('fs');
+    console.log("saving");
+    fs.writeFile('players.json', JSON.stringify(object), function (err) {
+        if (err) return console.log(err.description);
+
+    });
+}
+
+
+function newUser(players, post) {
+        console.log("newUser");
+        var players;
+        if (post.name !== undefined && post.pwd1 !== undefined) {
+            var newUser = {"name": post.name};
+            players.push(newUser);
+            saveJSON(players);
+        }
+             
+            
 	//TODO saving, generate&return client id to store on localstore
+
+        //console.log(players.name)
+       
+        console.log("loppu");
+    
 	return true;
 }
 
 function register(post, response) {
-	var success = false;
+	var success = true;
 	if (post !== undefined) {
-		if (post.name !== undefined && post.pwd1 !== undefined) {
-			success = newUser(post.name, post.pwd1);
-		}
+            readJSON(newUser, post);
 	}
 	if (success) {
 		response.writeHead(301, { 'Location': 'main.html'});
