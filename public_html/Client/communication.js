@@ -43,6 +43,9 @@ socket.on('coordinateTables', function(msg) {
 	if (isElementVisible('map')) {
 		drawMap();
 	}
+    
+        //menuobject list is also updated when change occurs
+        updateObjectList();
 
 });
 

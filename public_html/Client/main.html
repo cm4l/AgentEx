@@ -7,6 +7,8 @@
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAvLefR-lJTJPJInlS0Yy25zikwbitXXsk&sensor=false"></script>
         <script src="external_js_libraries/modernizr.custom.js"></script>
         <script src="external_js_libraries/three/three.min.js"></script>
+        <script src="location.js"></script>
+        <script src="sideMenu.js"></script>
         <script src="calcRoute.js"></script>
         <script src="route3d.js"></script>
         <script src="webCam.js"></script>
@@ -28,13 +30,11 @@
                 Alien invaders have left an artifact somewhere. Find it and erase it!
             </div>
             <img src="images/agentti_torso_th.png" alt="agent"/>
-
             <div>
                 <form action="toGame">
                     <input type="submit" value="Continue mission">
                 </form>
             </div>
-
             <div class="block">
                 <img id="playerImg" src="images/kysymysmerkki_g.png" alt="pelaajankuva"/>
                 <ul id="playerInfo">
@@ -44,7 +44,6 @@
                 </ul>
 
             </div>
-
             <div class="block">
                 Most valuable agents
                 <table>
@@ -52,7 +51,6 @@
                         <th>Codename</th>
                         <th>Missions</th>
                     </tr>
-
                     <tr>
                         <td>Superagent</td>
                         <td>23</td>
@@ -65,12 +63,10 @@
                         <td>Anon232</td>
                         <td>5</td>
                     </tr> 
-
                 </table>
             </div>
 
         </div>
-
        
         <div id="loginContainer" class="container">
             <form name="theForm">
@@ -105,6 +101,22 @@
 
             <div id="route_3d"></div>
         </section>
+        
+        
+        
+        <section id="sideMenuSection">
+            <div id="sideMenu">
+                <p>Side menu</p>
+                <ul id="sideMenuObjectList">    
+                    
+                </ul>
+            </div>  
+        </section>
+        
+        <section id="menuToggleSection">
+            <div id="menuToggle" onclick="runMenuToggle();"></div>
+            
+        </section>
 
         <script>
             function isElementVisible(id) {
@@ -127,6 +139,7 @@
             }
 
             function start() {
+                console.log("<check> Main.html loaded successfully");
                 var id = Math.random();
                 fetchOwnCoords();
                 startCommunication(id);
@@ -141,6 +154,8 @@
                 //console.log("LoginPressed");
                 hideElement('login');
                 showElement('debug_status');
+                //showElement('sideMenu');
+                showElement('menuToggleSection');
 
                 var formfield = document.theForm.group1;
                 var startingOrientation = "default";
@@ -171,6 +186,17 @@
                 orientationDataToHTML();
             }
 
+
+        function runMenuToggle(){
+            if (isElementVisible('sideMenuSection')) {
+                hideElement('sideMenuSection');
+            }else {
+                showElement('sideMenuSection');
+            }
+                
+            
+            
+        }
             window.onload = start();
         </script> 
     </body>
