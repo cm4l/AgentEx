@@ -2,8 +2,7 @@ body {
 	padding: 2%;
 	color: purple;
 	background-color: white ;
-  background-color: #d8da3d ;
-  height: 100%;
+	height: 100%;
 }
 
 body,	
@@ -43,12 +42,12 @@ section {
 	/*Ajattelin että nämä ovat turhia, Tuire
 	position:absolute;
 	top:0px;
-	left:0px;*/
+	left:0px;
+	*/
 
 	/*set the width and height to 100% of the screen*/
 	width:100%;
-	height:100%;
-	display:none;               
+	height:100%;             
 }
 
 input[type=text], input[type=password]{
@@ -89,7 +88,7 @@ input[type=button], input[type=submit]{
 	padding:15px;
 	margin: 1em 0 0.5em 0;
 	color:#000;
-	background:#F7EFF7;//orange: #f3961c;
+	background:#F7EFF7;/*orange: #f3961c;*/
 
 	-moz-border-radius:10px;
 	-webkit-border-radius:10px;
@@ -106,7 +105,7 @@ input[type=button], input[type=submit]{
 	width:0;
 	border-width:15px 15px 0;
 	border-style:solid;
-	border-color:#F7EFF7 transparent;//orange: #f3961c transparent;
+	border-color:#F7EFF7 transparent; /*orange: #f3961c transparent;*/
 }
 
 .hidden{
@@ -193,10 +192,38 @@ input[type=button], input[type=submit]{
 	margin:0;
 	padding:0;
 }
+
 #clearDirectionsItem, #getDirectionsItem{
 	display:none;
 }
 /*	end styles for the ContextMenu	*/
 
+#markerInfo {
+    
+    font-size: 0.7em;
+}
 
+#menuToggle {
+    z-index: 30;
+	position: absolute;
+	right:0;
+	bottom:0;
+	height:8%;
+	width:8%;
+	background: hotpink;
+
+}
+
+.sidemenu{
+	position:absolute;
+	height:100%;
+	background: yellow;
+	top:0;
+	right:0;
+	z-index:15; /*must be less than #menutoggle*/
+}
+
+.sideMenu ul li {
+    font-size:0.7em;
+}
 
