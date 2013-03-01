@@ -78,7 +78,7 @@ function newUser(players, post) {
         console.log("newUser");
         var players;
         if (post.name !== undefined && post.pwd1 !== undefined) {
-            var newUser = {"name": post.name};
+            var newUser = {"name": post.name, "pwd":post.pwd1};
             players.push(newUser);
             saveJSON(players);
         }
