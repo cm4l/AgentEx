@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width">
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAvLefR-lJTJPJInlS0Yy25zikwbitXXsk&sensor=false"></script>
+        <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
         <script src="external_js_libraries/modernizr.custom.js"></script>
         <script src="external_js_libraries/three/three.min.js"></script>
         <script src="location.js"></script>
@@ -22,64 +23,72 @@
         <link rel="stylesheet" href="default.css">                   
     </head>
     <body>
+        <section id="sideMenuSection" class="hidden">
+            <div id="sideMenu" class="sidemenu">
+                <p>Side menu</p>
+                <ul id="sideMenuObjectList">    
+                    
+                </ul>
+            </div>  
+        </section>
          <!-- Onko millään tästä mitään käyttöä enää? -Tea-->
-        <section id="login" style="display:block">
-        <div class="container">
+        <section id="login">
+            <div class="container">
 
-            <div class="bubble">
-                Alien invaders have left an artifact somewhere. Find it and erase it!
+                <div class="bubble">
+                    Alien invaders have left an artifact somewhere. Find it and erase it!
+                </div>
+                <img src="images/agentti_torso_th.png" alt="agent"/>
+                <div>
+                    <form action="toGame">
+                        <input type="submit" value="Continue mission">
+                    </form>
+                </div>
+                <div class="block">
+                    <img id="playerImg" src="images/kysymysmerkki_g.png" alt="pelaajankuva"/>
+                    <ul id="playerInfo">
+                        <li>Codename:</li>
+                        <li>Rank:</li>
+                        <li>Missions:</li>
+                    </ul>
+
+                </div>
+                <div class="block">
+                    Most valuable agents
+                    <table>
+                        <tr>
+                            <th>Codename</th>
+                            <th>Missions</th>
+                        </tr>
+                        <tr>
+                            <td>Superagent</td>
+                            <td>23</td>
+                        </tr>   
+                        <tr>
+                            <td>William</td>
+                            <td>14</td>
+                        </tr> 
+                        <tr>
+                            <td>Anon232</td>
+                            <td>5</td>
+                        </tr> 
+                    </table>
+                </div>
+
             </div>
-            <img src="images/agentti_torso_th.png" alt="agent"/>
-            <div>
-                <form action="toGame">
-                    <input type="submit" value="Continue mission">
+           
+            <div id="loginContainer" class="container">
+                <form name="theForm">
+                    Username: <input type="text" name="user">
+                    <input type="button" value="Ready" onclick="loginPressed()"><br>
+                    <hr>
+                    (debug)<br>
+                    Use sensor <input id="radio3" type="radio" name="group1" value="sensor" checked="checked" />
+                    Map        <input id="radio1" type="radio" name="group1" value="map" />
+                    Webcam     <input id="radio2" type="radio" name="group1" value="cam" />
                 </form>
             </div>
-            <div class="block">
-                <img id="playerImg" src="images/kysymysmerkki_g.png" alt="pelaajankuva"/>
-                <ul id="playerInfo">
-                    <li>Codename:</li>
-                    <li>Rank:</li>
-                    <li>Missions:</li>
-                </ul>
-
-            </div>
-            <div class="block">
-                Most valuable agents
-                <table>
-                    <tr>
-                        <th>Codename</th>
-                        <th>Missions</th>
-                    </tr>
-                    <tr>
-                        <td>Superagent</td>
-                        <td>23</td>
-                    </tr>   
-                    <tr>
-                        <td>William</td>
-                        <td>14</td>
-                    </tr> 
-                    <tr>
-                        <td>Anon232</td>
-                        <td>5</td>
-                    </tr> 
-                </table>
-            </div>
-
-        </div>
-       
-        <div id="loginContainer" class="container">
-            <form name="theForm">
-                Username: <input type="text" name="user">
-                <input type="button" value="Ready" onclick="loginPressed()"><br>
-                <hr>
-                (debug)<br>
-                Use sensor <input id="radio3" type="radio" name="group1" value="sensor" checked="checked" />
-                Map        <input id="radio1" type="radio" name="group1" value="map" />
-                Webcam     <input id="radio2" type="radio" name="group1" value="cam" />
-            </form>
-        </div>
-            </section>
+        </section>
         
         <section id="debug_status">
             <p>
@@ -91,30 +100,22 @@
             </p>
         </section>
 
-        <section id="map">
+        <section id="map" class="hidden">
             <div id="mapContainer"></div>
         </section>
 
-        <section id="cam">
+        <section id="cam" class="hidden">
             <canvas id="webCamCanvasFallback"></canvas>
             <video id="webCamCanvas" autoplay="autoplay"></video>
 
             <div id="route_3d"></div>
         </section>
-        
-        
-        
-        <section id="sideMenuSection">
-            <div id="sideMenu">
-                <p>Side menu</p>
-                <ul id="sideMenuObjectList">    
-                    
-                </ul>
-            </div>  
-        </section>
+
+
         
         <section id="menuToggleSection">
-            <div id="menuToggle" onclick="runMenuToggle();"></div>
+            <div id="menuToggle" onclick="runMenuToggle();">
+            </div>
             
         </section>
 
@@ -131,12 +132,14 @@
             }
 
             function showElement(id) {
-                document.getElementById(id).style.display = 'block';
+                $('#'+id).removeClass('hidden');
             }
 
             function hideElement(id) {
-                document.getElementById(id).style.display = 'none';
+                $('#'+id).addClass('hidden');
             }
+
+        
 
             function start() {
                 console.log("<check> Main.html loaded successfully");
@@ -148,6 +151,7 @@
                 var placeholder = document.getElementById('route_3d');
                 //console.log("placeholder ="+placeholder);
                 route3dInit(placeholder);
+                showElement('menuToggleSection');
             }
 
             function loginPressed() {
@@ -155,7 +159,7 @@
                 hideElement('login');
                 showElement('debug_status');
                 //showElement('sideMenu');
-                showElement('menuToggleSection');
+
 
                 var formfield = document.theForm.group1;
                 var startingOrientation = "default";
