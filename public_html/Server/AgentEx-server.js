@@ -4,10 +4,13 @@
 */
 var PORT = 9002;
 
-var http = require('http');
-var fs = require('fs');
-var path = require('path');
-var url = require('url');
+var http = require('http'),
+    fs = require('fs'),
+    path = require('path'),
+    url = require('url'),
+    cookie = require('cookie');
+
+
 
 
 function getContentType(extname) {
@@ -26,7 +29,7 @@ function getContentType(extname) {
     }
 }
 
-function serveFile(filePath, response) {
+function serveFile(filePath, response, agentex_id) {
     console.log("LOG: looking for file '" + filePath + "'");
     var extname, contentType;
     extname = path.extname(filePath);
@@ -100,7 +103,7 @@ function register(post, response) {
         id = addNewUser(players, post);
     }
     if (id !== '') {
-        //TODO modify html before returning
+        response.setHeader("Set-Cookie", ["agentex_id=" + id]);
         response.writeHead(301, { 'Location': 'main.html'});
         response.end();
     } else {
@@ -116,16 +119,21 @@ function loginWithPwd(name, pwd) {
 	return true; //TODO
 }
 
-function login(post, response) {
+function getAgentexId(name){
+    return 1;
+}
+
+function login(post, response, agentexId) {
     var authorized = false;
-    if (post !== undefined) {
-        if (post.clientId !== undefined) {
-            authorized = loginWithId(post.clientId);
-        } else if (post.name !== undefined && post.pwd !== undefined) {
-            authorized = loginWithPwd(post.name, post.pwd);
+    if (agentexId !== undefined) {
+        authorized = loginWithId(agentexId);
+    } else if (post !== undefined && post.name !== undefined && post.pwd !== undefined) {
+        authorized = loginWithPwd(post.name, post.pwd);
+        if (authorized) {
+            agentexId = getAgentexId(name);
+            response.setHeader("Set-Cookie", ["agentex_id=" + agentexId]);
         }
     }
-
     if (authorized) {
         response.writeHead(301, { 'Location': 'main.html'});
         response.end();
@@ -134,28 +142,35 @@ function login(post, response) {
     }
 }
 
-function routeRequest(path, response, getData, postData) {
+function routeRequest(path, response, getData, postData, agentexId) {
     var filePath;
     filePath = '../Client';
-    console.log('register hit 0');
     switch (path) {
     case '/':
+        if (agentexId !== undefined) {
+            return login(postData, response, agentexId);
+        }
         return serveFile(filePath + '/index.html', response);
     case '/Register':
         return register(postData, response);
     case '/Login':
-        return login(postData, response);
+        return login(postData, response, agentexId);
     default:
-        return serveFile(filePath + path, response);
+        return serveFile(filePath + path, response, agentexId);
     }
 }
 
 var server = http.createServer(function (request, response) {
     console.log("LOG: requesting: '" + request.url + "'");
-
-    var getData, postData, urlData, filePath, querystring, data;
+    var getData, postData, urlData, filePath, querystring, data, cookies, agentexId;
     urlData = url.parse(request.url, true);
     getData = urlData.query;
+    if (request.headers.cookie) {
+        cookies = cookie.parse(request.headers.cookie);
+        if (cookies.agentex_id !== undefined) {
+            agentexId = cookies.agentex_id;
+        }
+    }
     //console.log("Parsed: "+ urlData.pathname);
     //console.log("Data", JSON.stringify(queryData));
     if (request.method === 'POST') {
@@ -167,10 +182,10 @@ var server = http.createServer(function (request, response) {
         request.on('end', function () {
             postData = querystring.parse(data);
             //routing called after all POST data is read
-            routeRequest(urlData.pathname, response, getData, postData);
+            routeRequest(urlData.pathname, response, getData, postData, agentexId);
         });
     } else { //GET
-        routeRequest(urlData.pathname, response, getData, postData);
+        routeRequest(urlData.pathname, response, getData, postData, agentexId);
     }
 });
 
