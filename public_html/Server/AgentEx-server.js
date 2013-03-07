@@ -71,8 +71,16 @@ function savePlayers(object) {
 
 function isValidNewUser(name, pwd, players) {
     if (name !== undefined && pwd !== undefined) {
+        var num_of_players = players.length;
+        console.log("num_of_players");
+        for (player in players) {
+            if (player.name == name) {
+                return false;
+            }
+        }
         return true;
-    } //TODO check player name is unique
+    }
+    return false;
 }
 
 function generateId(players) {
@@ -130,7 +138,7 @@ function login(post, response, agentexId) {
     } else if (post !== undefined && post.name !== undefined && post.pwd !== undefined) {
         authorized = loginWithPwd(post.name, post.pwd);
         if (authorized) {
-            agentexId = getAgentexId(name);
+            agentexId = getAgentexId(post.name);
             response.setHeader("Set-Cookie", ["agentex_id=" + agentexId]);
         }
     }
