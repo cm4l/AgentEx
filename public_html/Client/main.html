@@ -29,8 +29,8 @@
                 <ul id="sideMenuObjectList">    
                     
                 </ul>
-                <div> <img src="images/homescreen_button.png"alt="home" />
-                <div> <img src="images/map_button.png"alt="map" />
+                <div> <img src="images/homescreen_button.png" alt="home" />
+                <div> <img src="images/map_button.png" alt="map" />
                 </div>
                 </div>
             </div>  
@@ -151,7 +151,7 @@
                 fetchOwnCoords();
                 startCommunication(id);
                 localStorage.sessionId = id;
-
+                getOrientation();
                 var placeholder = document.getElementById('route_3d');
                 //console.log("placeholder ="+placeholder);
                 route3dInit(placeholder);
@@ -159,6 +159,9 @@
             }
 
             function loginPressed() {
+                
+                localStorage.userLoggedIn = "1";
+                
                 //console.log("LoginPressed");
                 hideElement('login');
                 showElement('debug_status');
@@ -171,7 +174,7 @@
                     if (formfield[i].checked == true)
                         startingOrientation = formfield[i].value;
                 //console.log(startingOrientation);
-                getOrientation();
+                //getOrientation();
 
                 //This is the default case (we just trust sensors and getOrientation)
                 if (startingOrientation == 'sensor') {
@@ -190,8 +193,8 @@
                 localStorage.orientationAlphaCompass = 0; //look to the north
                 localStorage.orientationBetaY = 0; //suppose screen is landscaped
 
-                sectionChangeOnOrientationChange();
-                orientationDataToHTML();
+                //sectionChangeOnOrientationChange();
+                //orientationDataToHTML();
             }
 
 

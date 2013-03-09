@@ -79,7 +79,7 @@ else { //Fallback, if there are no webcam, show static image
 	}
 
 //update augmented reality
-route3dUpdateCameraPosition();
+//route3dUpdateCameraPosition();
 }
 function webCam_test(){
 route3dUpdateCameraPosition();

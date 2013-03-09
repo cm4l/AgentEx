@@ -37,7 +37,11 @@ function getOrientation(){
 	}
 
 
-            function orientation(event) {
+            
+
+
+}
+function orientation(event) {
 			// gamma is the left-to-right tilt in degrees, where right is positive
                         // console.log("Deviceorientation event triggered");
                         
@@ -45,24 +49,45 @@ function getOrientation(){
 
                         //console.log(event.beta);
 			//if ( eventData.gamma != null) //e.g. chrome on desktop sends null if there are no sensors
-			        localStorage.orientationGammaX =  event.gamma;
-
+                                if (navigator.appName = 'Opera'){
+                                    //localStorage.orientationGammaX =  event.alpha;
+                                    localStorage.orientationGammaX =  event.gamma;
+                                }else{
+                                
+                                    localStorage.orientationGammaX =  event.gamma;
+                                }
 			// beta is the front-to-back tilt in degrees, where front is positive
 			//if (eventData.beta != null)
+                                if (navigator.appName = 'Opera'){
+                                    localStorage.orientationBetaY =  event.beta;
+                                }else{
 				localStorage.orientationBetaY = event.beta;
-
+                                }
 			// alpha is the compass direction the device is facing in degrees
 			//if (eventData.alpha != null)
+                                if (navigator.appName = 'Opera'){
+                                    localStorage.orientationAlphaCompass =  event.alpha;
+                                }else{
 				localStorage.orientationAlphaCompass = event.alpha;
-        
-			// for debugging: show values
-                        setInterval(function(){route3dUpdateCameraPosition();},1000);
-			orientationDataToHTML();
+                                }
+                            
+                        //we will only start this update after the user is logged in bu twe have to initialize the orientation for it to work on OPERA
+                        
+                        if (localStorage.userLoggedIn == "1"){
+// for debugging: show values
+                                if (isElementVisible('cam')){
+                                       setInterval(function(){route3dUpdateCameraPosition();},1000);
+                                }
 
-			//swap section based on new orientation
-			sectionChangeOnOrientationChange();
+                                orientationDataToHTML();
+                                //lets see if localstorage is the problem
+                                document.getElementById('GammaX').innerHTML = event.gamma;
+                                document.getElementById('BetaY').innerHTML = event.beta;
+                                document.getElementById('AlphaC').innerHTML = event.alpha;
+                                        //swap section based on new orientation
+                                sectionChangeOnOrientationChange();
                         
-                        
+                            }
                         }
                         catch(err){
                         console.log("DeviceOrientation error: "+err.message);
@@ -70,10 +95,6 @@ function getOrientation(){
                         
 
 		}
-
-
-}
-
 /*
  This is for debugging.
 */

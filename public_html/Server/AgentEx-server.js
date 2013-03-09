@@ -2,7 +2,7 @@
 
  This server handles static html files (png, jpeg, css).
 */
-var PORT = 9002;
+var PORT = 80;
 
 var http = require('http'),
     fs = require('fs'),
