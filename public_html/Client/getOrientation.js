@@ -14,14 +14,7 @@ function getOrientation(){
 	if (window.DeviceOrientationEvent) {
 		console.log("browser/device claims to support orientation events");
                 
-                if (Modernizr.localstorage) {
-                    // window.localStorage is available!
-                    console.log("localstorage supported by browser");
-                } else {
-                    console.log("localstorage NOT supported by browser");
-                    // no native support for local storage :(
-                    // maybe try Gears or another third-party solution
-                }
+               
 
 		//add listener
               

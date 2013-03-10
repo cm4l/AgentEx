@@ -52,18 +52,26 @@ for (x in user_table)  {
 		//console.log("This is me!")
 		desc= "Your current location!";
 		thisIsFriend = false;
+                var marker = new google.maps.Marker({
+                    position: friendCoords,
+                    map: map,
+                    icon: "/images/ownLocation.gif",
+                    title: desc,
+                    optimized: false
+                });
 	}
 
 	else {
 		desc = "user:"+x;
+                var marker = new google.maps.Marker({
+                    position: friendCoords,
+                    map: map,
+                    title: desc
+                });
 	}
     
         
-	var marker = new google.maps.Marker({
-		position: friendCoords,
-		map: map,
-		title: desc
-	});
+	
 
 	//add context menu to the friends (not for user)
 	if (thisIsFriend) {

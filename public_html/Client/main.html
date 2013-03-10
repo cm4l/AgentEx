@@ -94,7 +94,7 @@
             </div>
         </section>
         
-        <section id="debug_status">
+        <section id="debug_status" class="hidden">
             <p>
                 GammaX <span id="GammaX"></span><br/>
                 BetaY <span id="BetaY"></span><br/>
@@ -147,6 +147,7 @@
 
             function start() {
                 console.log("<check> Main.html loaded successfully");
+                localStorage.userLoggedIn = "0";   //nollataan tässä     
                 var id = Math.random();
                 fetchOwnCoords();
                 startCommunication(id);
