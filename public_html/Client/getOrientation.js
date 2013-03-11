@@ -177,6 +177,11 @@ function sectionChangeOnOrientationChange(){
 	//console.log("orientation:"+o);
 	//console.log("map="+isElementVisible('map'));
 	//console.log("cam="+isElementVisible('cam'));
+        if (!isElementVisible('cam') && !isElementVisible('map')) {
+            //if nothing is visible /might happend in the beginning
+            showElement('map');
+            drawMap();
+        }
 
 	if ( o>75 ) {
 		if (!isElementVisible('cam')){

@@ -23,7 +23,8 @@ function route3dInit(target_element) {
 	console.log("route3dInit called");
 	//Create camera, because its rotation is bind to the sensors
 	                // PerspectiveCamera(fov,    aspect,    near, far)
-	camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.0001, 1 ); //works
+	camera = new THREE.PerspectiveCamera(45,  window.innerWidth / window.innerHeight, 0.00001, 0.005); //camera sees from 1m to 500m (about)
+        //camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.00001, 0.001 ); //works (camera vision is from 1 meter to 100 meters)
 	//camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.00001, 2000 );//this breaks ray-intersecting
 	//Both seems to work, what is difference?
 	renderer = new THREE.CanvasRenderer(); //This works better with Opera
@@ -146,13 +147,15 @@ function route3dAddFriend(username,lat,lon) {
 	console.log("route3dAddFriend called "+lat+","+lon);
 	var radius = 0.5, height = 0.5, segments = 16;
 	var geometry = new THREE.CylinderGeometry(0, radius, height, segments, segments, false);
+        var cube = new THREE.Mesh(new THREE.CubeGeometry(0.0001,0.0001,0.0001), new THREE.MeshBasicMaterial({color: 0x00ff00})); //10m3 cube
 	var material =  new THREE.MeshBasicMaterial( { color: 0x00ff00,} );
 
-	var object = new THREE.Mesh( geometry, material);
+	//var object = new THREE.Mesh( geometry, material);
+        var object = cube; //lets push the cube to scene
 	object.name=username;
 
 	object.position.x = lon;
-	object.position.y = 0.01; //have to calculate how much we want to raise the object
+	object.position.y = 0; //have to calculate how much we want to raise the object
 	object.position.z = -lat;
 
 	scene.add( object );

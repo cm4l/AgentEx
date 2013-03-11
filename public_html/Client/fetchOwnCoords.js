@@ -36,4 +36,15 @@ else {
 }
 		
 
-};
+}
+
+function updateLocation() {
+    
+    
+    
+    
+    
+    
+    
+    
+}
