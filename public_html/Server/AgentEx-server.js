@@ -8,12 +8,54 @@ var http = require('http'),
     fs = require('fs'),
     path = require('path'),
     url = require('url'),
-    cookie = require('cookie');
+    cookie = require('cookie'),
+    whiskers = require('whiskers');
 
 
 
 
-function getContentType(extname) {
+
+
+function readPlayers() {
+    var playersText;
+    playersText = fs.readFileSync('players.json', 'utf8');
+    return JSON.parse(playersText);
+}
+
+function getPlayerWithId(id) {
+    var i,
+        players = readPlayers(),
+        playerCount = players.length;
+
+    for (i = 0; i < playerCount; i++) {
+        if (players[i].id === id) {
+            return players[i];
+        }
+    }
+    return undefined;
+}
+
+function personalizeMainPage(template, agentexId) {
+    var personalizedContent,
+        player = getPlayerWithId(agentexId),
+        context,
+        mission;
+
+    if (player !== undefined) {
+        context = {
+            missionDescription : 'Tämä on testitehtävän kuvaus.',
+            name : player.name,
+            rank : 'Rookie',
+            missionCount  : '2'
+        };
+        return whiskers.render(template, context);
+    }
+    return template;
+}
+
+function getContentType(filePath) {
+    var extname;
+    extname = path.extname(filePath);
     switch (extname) {
     case '.js':
         return 'text/javascript';
@@ -29,12 +71,9 @@ function getContentType(extname) {
     }
 }
 
-function serveFile(filePath, response, agentex_id) {
+function serveFile(filePath, response, agentexId) {
     console.log("LOG: looking for file '" + filePath + "'");
-    var extname, contentType;
-    extname = path.extname(filePath);
-    contentType = getContentType(extname);
-
+    var contentType = getContentType(filePath);
     path.exists(filePath, function (exists) {
         if (exists) {
             fs.readFile(filePath, function (error, content) {
@@ -42,6 +81,9 @@ function serveFile(filePath, response, agentex_id) {
                     response.writeHead(500);
                     response.end();
                 } else {
+                    if (filePath === '../Client/main.html') {
+                        content = personalizeMainPage(content, agentexId);
+                    }
                     response.writeHead(200, { 'Content-Type': contentType });
                     response.end(content, 'utf-8');
                 }
@@ -52,12 +94,6 @@ function serveFile(filePath, response, agentex_id) {
             response.end();
         }
     });
-}
-
-function readPlayers() {
-    var playersText;
-    playersText = fs.readFileSync('players.json', 'utf8');
-    return JSON.parse(playersText);
 }
 
 function savePlayers(object) {
@@ -96,7 +132,14 @@ function addNewUser(players, post) {
     console.log("newUser");
     if (isValidNewUser(post.name, post.pwd1, players)) {
         id = generateId(players);
-        newPlayer = {"name": post.name, "pwd": post.pwd1, "id": id};
+        newPlayer = {
+            'name': post.name,
+            'pwd': post.pwd1,
+            'id': id,
+            'rank': 'Rookie',
+            'missionCount': 0,
+            'currentMission': 1
+             };
         players.push(newPlayer);
         savePlayers(players);
     }
@@ -164,6 +207,10 @@ function routeRequest(path, response, getData, postData, agentexId) {
         return register(postData, response);
     case '/Login':
         return login(postData, response, agentexId);
+    case '/main':
+        if(agentexId === undefined){
+            serveFile('../Client/index.html', response);
+        }
     default:
         return serveFile(filePath + path, response, agentexId);
     }
@@ -177,6 +224,7 @@ var server = http.createServer(function (request, response) {
     if (request.headers.cookie) {
         cookies = cookie.parse(request.headers.cookie);
         if (cookies.agentex_id !== undefined) {
+            console.log("Cookie found: " + cookies.agentex_id);
             agentexId = cookies.agentex_id;
         }
     }
@@ -212,7 +260,7 @@ var user_table = {};
 
 function sendCoordinatesToEverybody() {
 	var txt = JSON.stringify(user_table);
-	console.log(txt);
+	/*console.log(txt);*/
 	io.sockets.emit('coordinateTables',txt);
 }
 
