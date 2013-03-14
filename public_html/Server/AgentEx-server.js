@@ -71,10 +71,11 @@ function savePlayers(object) {
 
 function isValidNewUser(name, pwd, players) {
     if (name !== undefined && pwd !== undefined) {
-        var num_of_players = players.length;
+        var i,
+            num_of_players = players.length;
         console.log("num_of_players");
-        for (player in players) {
-            if (player.name == name) {
+        for (i = 0; i < num_of_players; i++) {
+            if (players[i].name === name) {
                 return false;
             }
         }
@@ -120,14 +121,14 @@ function register(post, response) {
 }
 
 function loginWithId(clientId) {
-	return true; //TODO
+    return true; //TODO
 }
 
 function loginWithPwd(name, pwd) {
-	return true; //TODO
+    return true; //TODO
 }
 
-function getAgentexId(name){
+function getAgentexId(name) {
     return 1;
 }
 
