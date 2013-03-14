@@ -25,18 +25,20 @@
     <body>
         <section id="sideMenuSection" class="hidden">
             <div id="sideMenu" class="sidemenu">
+                <!--
                 <p>Side menu</p>
                 <ul id="sideMenuObjectList">    
-                    
                 </ul>
-                <div> <img src="images/homescreen_button.png" alt="home" />
-                <div> <img src="images/map_button.png" alt="map" />
-                </div>
-                </div>
+                -->
+               
+                 <img class="menuImg" src="images/homescreen_button.png" alt="home" onclick="homePressed();"/>          
+                 <img class="menuImg" src="images/map_button.png" alt="map" onclick="mapPressed();"/>
+                 <img class="menuImg" src="images/camera_button.png" alt="camera" onclick="cameraPressed();"/>
+                
             </div>  
         </section>
-         <!-- Onko millään tästä mitään käyttöä enää? -Tea-->
-        <section id="login">
+        <!-- Onko millään tästä mitään käyttöä enää? -Tea-->
+        <section id="home">
             <div class="container">
 
                 <div class="bubble">
@@ -44,9 +46,7 @@
                 </div>
                 <img src="images/agentti_torso_th.png" alt="agent"/>
                 <div>
-                    <form action="toGame">
-                        <input type="submit" value="Continue mission">
-                    </form>
+                    <button onclick="toGame();">Continue mission</button>
                 </div>
                 <div class="block">
                     <img id="playerImg" src="images/kysymysmerkki_g.png" alt="pelaajankuva"/>
@@ -80,7 +80,7 @@
                 </div>
 
             </div>
-           
+
             <div id="loginContainer" class="container">
                 <form name="theForm">
                     Username: <input type="text" name="user">
@@ -93,7 +93,7 @@
                 </form>
             </div>
         </section>
-        
+
         <section id="debug_status" class="hidden">
             <p>
                 GammaX <span id="GammaX"></span><br/>
@@ -116,100 +116,127 @@
         </section>
 
 
-        
-        <section id="menuToggleSection">
+
+        <section id="menuToggleSection" class="hidden">
             <div id="menuToggle" onclick="runMenuToggle();">
             </div>
-            
+
         </section>
 
         <script>
-            function isElementVisible(id) {
-                var e = document.getElementById(id);
-                var state = window.getComputedStyle(e).display;
-                //console.log (state);
+                        function isElementVisible(id) {
+                            var e = document.getElementById(id);
+                            var state = window.getComputedStyle(e).display;
+                            //console.log (state);
 
-                if (state != 'none')
-                    return true;
-                else
-                    return false;
-            }
+                            if (state != 'none')
+                                return true;
+                            else
+                                return false;
+                        }
 
-            function showElement(id) {
-                $('#'+id).removeClass('hidden');
-            }
+                        function showElement(id) {
+                            $('#' + id).removeClass('hidden');
+                        }
 
-            function hideElement(id) {
-                $('#'+id).addClass('hidden');
-            }
+                        function hideElement(id) {
+                            $('#' + id).addClass('hidden');
+                        }
 
-        
+                        function homePressed() {
+                            hideElement('map');
+                            hideElement('cam');
+                            hideElement('menuToggleSection');
+                            hideElement('sideMenuSection');
+                            
+                            showElement('home');
+                        }
+                        
+                        function cameraPressed() {
+                            hideElement('home');
+                            hideElement('map');
+                            showElement('cam');
+                        }
 
-            function start() {
-                console.log("<check> Main.html loaded successfully");
-                localStorage.userLoggedIn = "0";   //nollataan tässä     
-                var id = Math.random();
-                fetchOwnCoords();
-                startCommunication(id);
-                localStorage.sessionId = id;
-                getOrientation();
-                var placeholder = document.getElementById('route_3d');
-                //console.log("placeholder ="+placeholder);
-                route3dInit(placeholder);
-                showElement('menuToggleSection');
-            }
+                        function mapPressed() {
+                            hideElement('home');
+                            hideElement('cam');
+                            showElement('menuToggleSection');
+                            
+                            showElement('map');
+                        }
 
-            function loginPressed() {
-                
-                localStorage.userLoggedIn = "1";
-                
-                //console.log("LoginPressed");
-                hideElement('login');
-                showElement('debug_status');
-                //showElement('sideMenu');
-
-
-                var formfield = document.theForm.group1;
-                var startingOrientation = "default";
-                for (i = 0; i < formfield.length; i++)
-                    if (formfield[i].checked == true)
-                        startingOrientation = formfield[i].value;
-                //console.log(startingOrientation);
-                //getOrientation();
-
-                //This is the default case (we just trust sensors and getOrientation)
-                if (startingOrientation == 'sensor') {
-                    return;
-                }
-
-                // These are useful if there are no sensors (even browser claims to support them)
-                if (startingOrientation == 'map') {
-                    localStorage.orientationGammaX = -50;
-                }
-                else {
-                    localStorage.orientationGammaX = -40;
-                }
-
-                //some sane default values
-                localStorage.orientationAlphaCompass = 0; //look to the north
-                localStorage.orientationBetaY = 0; //suppose screen is landscaped
-
-                //sectionChangeOnOrientationChange();
-                //orientationDataToHTML();
-            }
+                        function toGame() {
+                            mapPressed();
+                        }
 
 
-        function runMenuToggle(){
-            if (isElementVisible('sideMenuSection')) {
-                hideElement('sideMenuSection');
-            }else {
-                showElement('sideMenuSection');
-            }
-                
-            
-            
-        }
-            window.onload = start();
+
+                        function start() {
+                            console.log("<check> Main.html loaded successfully");
+                            localStorage.userLoggedIn = "0";   //nollataan tässä     
+                            var id = Math.random();
+                            fetchOwnCoords();
+                            startCommunication(id);
+                            localStorage.sessionId = id;
+                            getOrientation();
+                            var placeholder = document.getElementById('route_3d');
+                            //console.log("placeholder ="+placeholder);
+                            route3dInit(placeholder);
+                            
+                        }
+
+                        function loginPressed() {
+
+                            localStorage.userLoggedIn = "1";
+
+                            //console.log("LoginPressed");
+                            hideElement('login');
+                            showElement('debug_status');
+                            //showElement('sideMenu');
+
+
+                            var formfield = document.theForm.group1;
+                            var startingOrientation = "default";
+                            for (i = 0; i < formfield.length; i++)
+                                if (formfield[i].checked == true)
+                                    startingOrientation = formfield[i].value;
+                            //console.log(startingOrientation);
+                            //getOrientation();
+
+                            //This is the default case (we just trust sensors and getOrientation)
+                            if (startingOrientation == 'sensor') {
+                                return;
+                            }
+
+                            // These are useful if there are no sensors (even browser claims to support them)
+                            if (startingOrientation == 'map') {
+                                localStorage.orientationGammaX = -50;
+                            }
+                            else {
+                                localStorage.orientationGammaX = -40;
+                            }
+
+                            //some sane default values
+                            localStorage.orientationAlphaCompass = 0; //look to the north
+                            localStorage.orientationBetaY = 0; //suppose screen is landscaped
+
+                            //sectionChangeOnOrientationChange();
+                            //orientationDataToHTML();
+                        }
+
+
+                        function runMenuToggle() {
+                            if (isElementVisible('sideMenuSection')) {
+                                hideElement('sideMenuSection');
+                            } else {
+                                showElement('sideMenuSection');
+                            }
+
+
+
+                        }
+                        window.onload = start();
         </script> 
     </body>
 </html>
