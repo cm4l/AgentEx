@@ -107,11 +107,12 @@ function savePlayers(object) {
 
 function isValidNewUser(name, pwd, players) {
     if (name !== undefined && pwd !== undefined) {
-        var i,
+        var i;
             num_of_players = players.length;
         console.log("num_of_players");
         for (i = 0; i < num_of_players; i++) {
             if (players[i].name === name) {
+                console.log("nimi jo olemassa");
                 return false;
             }
         }
@@ -168,7 +169,18 @@ function loginWithId(clientId) {
 }
 
 function loginWithPwd(name, pwd) {
-    return true; //TODO
+    if (name !== undefined && pwd !== undefined) {
+        var players, i;
+        players = readPlayers();
+        num_of_players = players.length;
+        for (i = 0; i < num_of_players; i++) {
+            if (players[i].name === name && players[i].pwd == pwd) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return false;
 }
 
 function getAgentexId(name) {
