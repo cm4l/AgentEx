@@ -119,8 +119,8 @@ function serveFile(filePath, response, agentexId) {
 
 function isValidNewUser(name, pwd, players) {
     if (name !== undefined && pwd !== undefined) {
-        var i;
-            num_of_players = players.length;
+        var i, num_of_players;
+        num_of_players = players.length;
         console.log("num_of_players");
         for (i = 0; i < num_of_players; i++) {
             if (players[i].name === name) {
@@ -176,8 +176,8 @@ function register(post, response) {
 }
 
 function loginWithId(clientId) {
-       if (clientId !== undefined) {
-        var players, i;
+    if (clientId !== undefined) {
+        var players, i, num_of_players;
         players = readPlayers();
         num_of_players = players.length;
         for (i = 0; i < num_of_players; i++) {
@@ -192,11 +192,11 @@ function loginWithId(clientId) {
 
 function loginWithPwd(name, pwd) {
     if (name !== undefined && pwd !== undefined) {
-        var players, i;
+        var players, i, num_of_players;
         players = readPlayers();
         num_of_players = players.length;
         for (i = 0; i < num_of_players; i++) {
-            if (players[i].name === name && players[i].pwd == pwd) {
+            if (players[i].name === name && players[i].pwd === pwd) {
                 return true;
             }
         }
