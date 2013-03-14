@@ -176,7 +176,18 @@ function register(post, response) {
 }
 
 function loginWithId(clientId) {
-    return true; //TODO
+       if (clientId !== undefined) {
+        var players, i;
+        players = readPlayers();
+        num_of_players = players.length;
+        for (i = 0; i < num_of_players; i++) {
+            if (players[i].id === clientId) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return false;
 }
 
 function loginWithPwd(name, pwd) {
