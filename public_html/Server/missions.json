@@ -1,0 +1,14 @@
+[
+	{
+		"id": 1,
+		"description": "This is the first task, located in Siltasaari. Alien invaders have left an artifact somewhere. Find it and erase it!",
+		"lat": "60.17756", 
+		"long": "24.948659" 
+	},
+	{
+		"id": 2,
+		"description": "This is the second task, located on Vaasankatu. Alien invaders have left an artifact somewhere. Find it and erase it!",
+		"lat": "60.188372",
+		"long": "24.958875"
+	}
+]

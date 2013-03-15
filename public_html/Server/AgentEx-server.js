@@ -12,41 +12,61 @@ var http = require('http'),
     whiskers = require('whiskers');
 
 
-
-
-
-
 function readPlayers() {
-    var playersText;
-    playersText = fs.readFileSync('players.json', 'utf8');
+    var playersText = fs.readFileSync('players.json', 'utf8');
     return JSON.parse(playersText);
 }
 
-function getPlayerWithId(id) {
-    var i,
-        players = readPlayers(),
-        playerCount = players.length;
+function readMissions() {
+    var missionsText = fs.readFileSync('missions.json', 'utf8');
+    return JSON.parse(missionsText);
+}
 
-    for (i = 0; i < playerCount; i++) {
-        if (players[i].id === id) {
-            return players[i];
+function savePlayers(object) {
+    fs.writeFile('players.json', JSON.stringify(object), function (err) {
+        if (err) {
+            return console.log(err.description);
+        }
+    });
+}
+
+function getById(id, sourceArray) {
+    var i,
+        length = sourceArray.length;
+    for (i = 0; i < length; i++) {
+        if (sourceArray[i].id === id) {
+            return sourceArray[i];
         }
     }
     return undefined;
 }
 
+function getPlayerWithId(id) {
+    var players = readPlayers();
+    return getById(id, players);
+}
+
+function getMissionById(id) {
+    var missions = readMissions();
+    return getById(id, missions);
+}
+
 function personalizeMainPage(template, agentexId) {
     var personalizedContent,
-        player = getPlayerWithId(agentexId),
         context,
-        mission;
+        mission,
+        player = getPlayerWithId(agentexId);
 
     if (player !== undefined) {
+        mission = getMissionById(player.currentMission);
         context = {
-            missionDescription : 'Tämä on testitehtävän kuvaus.',
+            missionDescription : mission.description,
             name : player.name,
-            rank : 'Rookie',
-            missionCount  : '2'
+            rank : player.rank,
+            missionCount  : player.missionCount,
+            targetLatitude : mission.lat,
+            targetLongitude : mission.long
+
         };
         return whiskers.render(template, context);
     }
@@ -81,6 +101,7 @@ function serveFile(filePath, response, agentexId) {
                     response.writeHead(500);
                     response.end();
                 } else {
+
                     if (filePath === '../Client/main.html') {
                         content = personalizeMainPage(content, agentexId);
                     }
@@ -96,22 +117,14 @@ function serveFile(filePath, response, agentexId) {
     });
 }
 
-function savePlayers(object) {
-    console.log("saving");
-    fs.writeFile('players.json', JSON.stringify(object), function (err) {
-        if (err) {
-            return console.log(err.description);
-        }
-    });
-}
-
 function isValidNewUser(name, pwd, players) {
     if (name !== undefined && pwd !== undefined) {
-        var i,
-            num_of_players = players.length;
+        var i, num_of_players;
+        num_of_players = players.length;
         console.log("num_of_players");
         for (i = 0; i < num_of_players; i++) {
             if (players[i].name === name) {
+                console.log("nimi jo olemassa");
                 return false;
             }
         }
@@ -135,15 +148,14 @@ function addNewUser(players, post) {
         newPlayer = {
             'name': post.name,
             'pwd': post.pwd1,
-            'id': id,
+            'id': id.toString(),
             'rank': 'Rookie',
             'missionCount': 0,
             'currentMission': 1
-             };
+        };
         players.push(newPlayer);
         savePlayers(players);
     }
-    console.log("loppu");
     return id;
 }
 
@@ -164,15 +176,45 @@ function register(post, response) {
 }
 
 function loginWithId(clientId) {
-    return true; //TODO
+    if (clientId !== undefined) {
+        var players, i, num_of_players;
+        players = readPlayers();
+        num_of_players = players.length;
+        for (i = 0; i < num_of_players; i++) {
+            if (players[i].id === clientId) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return false;
 }
 
 function loginWithPwd(name, pwd) {
-    return true; //TODO
+    if (name !== undefined && pwd !== undefined) {
+        var players, i, num_of_players;
+        players = readPlayers();
+        num_of_players = players.length;
+        for (i = 0; i < num_of_players; i++) {
+            if (players[i].name === name && players[i].pwd === pwd) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return false;
 }
 
 function getAgentexId(name) {
-    return 1;
+    var i,
+        players = readPlayers(),
+        length = players.length;
+    for (i = 0; i < length; i++) {
+        if (players[i].name === name) {
+            return players[i].id;
+        }
+    }
+    return undefined;
 }
 
 function login(post, response, agentexId) {
@@ -207,9 +249,10 @@ function routeRequest(path, response, getData, postData, agentexId) {
         return register(postData, response);
     case '/Login':
         return login(postData, response, agentexId);
-    case '/main':
-        if(agentexId === undefined){
-            serveFile('../Client/index.html', response);
+    case '/main.html':
+        if (agentexId === undefined) {
+            console.log("ae undefined");
+            return serveFile(filePath + '/index.html', response);
         }
     default:
         return serveFile(filePath + path, response, agentexId);
