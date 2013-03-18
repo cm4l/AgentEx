@@ -23,7 +23,7 @@ function route3dInit(target_element) {
 	console.log("route3dInit called");
 	//Create camera, because its rotation is bind to the sensors
 	                // PerspectiveCamera(fov,    aspect,    near, far)
-	camera = new THREE.PerspectiveCamera(45,  window.innerWidth / window.innerHeight, 0.00001, 0.005); //camera sees from 1m to 500m (about)
+	camera = new THREE.PerspectiveCamera(45,  window.innerWidth / window.innerHeight, 0.00001, 0.001); //camera sees from 1m to 100m (about)
         //camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.00001, 0.001 ); //works (camera vision is from 1 meter to 100 meters)
 	//camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.00001, 2000 );//this breaks ray-intersecting
 	//Both seems to work, what is difference?
@@ -147,8 +147,9 @@ function route3dAddFriend(username,lat,lon) {
 	console.log("route3dAddFriend called "+lat+","+lon);
 	var radius = 0.5, height = 0.5, segments = 16;
 	var geometry = new THREE.CylinderGeometry(0, radius, height, segments, segments, false);
-        var cube = new THREE.Mesh(new THREE.CubeGeometry(0.0001,0.0001,0.0001), new THREE.MeshBasicMaterial({color: 0x00ff00})); //10m3 cube
-	var material =  new THREE.MeshBasicMaterial( { color: 0x00ff00,} );
+        //var cube = new THREE.Mesh(new THREE.CubeGeometry(0.00001,0.00001,0.00001), new THREE.MeshBasicMaterial({color: 0x00ff00})); //1m3 cube
+    var cube = new THREE.Mesh(new THREE.CubeGeometry(0.0001,0.0001,0.0001), new THREE.MeshBasicMaterial({color: 0x00ff00})); //10m3 cube	
+    var material =  new THREE.MeshBasicMaterial( { color: 0x00ff00,} );
 
 	//var object = new THREE.Mesh( geometry, material);
         var object = cube; //lets push the cube to scene
@@ -173,13 +174,13 @@ function route3dUpdateCameraPosition(){
 	//Move and rotate camera.
         //camera axis z is phone camera exis y
 	camera.position.x = localStorage.ownLongitude;
-	camera.position.z = -localStorage.ownLatitude+1;
+	camera.position.z = -localStorage.ownLatitude;
 
 
 
 	camera.rotation.y = (localStorage.orientationAlphaCompass)*deg2rad;
 	camera.rotation.z = (localStorage.orientationBetaY)*deg2rad;
-	camera.rotation.x = (localStorage.orientationGammaX-90)*deg2rad;
+	camera.rotation.x = (localStorage.orientationGammaX-90)*deg2rad; //this is -90 because device is turned 90 degrees when using camera mode
 
         //camera.lookAt(60.320938888984735,0,25.084144891275255);
         //console.log("")
