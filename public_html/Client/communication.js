@@ -45,7 +45,7 @@ socket.on('coordinateTables', function(msg) {
 	}
     
         //menuobject list is also updated when change occurs
-        updateObjectList();
+        //updateObjectList();
 
 });
 

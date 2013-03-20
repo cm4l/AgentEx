@@ -74,9 +74,9 @@ function orientation(event) {
 
                                 orientationDataToHTML();
                                 //lets see if localstorage is the problem
-                                document.getElementById('GammaX').innerHTML = event.gamma;
-                                document.getElementById('BetaY').innerHTML = event.beta;
-                                document.getElementById('AlphaC').innerHTML = event.alpha;
+                                //document.getElementById('GammaX').innerHTML = event.gamma;
+                                //document.getElementById('BetaY').innerHTML = event.beta;
+                                //document.getElementById('AlphaC').innerHTML = event.alpha;
                                         //swap section based on new orientation
                                 sectionChangeOnOrientationChange();
                         

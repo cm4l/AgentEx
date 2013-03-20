@@ -147,6 +147,7 @@
                         }
 
                         function homePressed() {
+                            localStorage.userLoggedIn = "0";
                             hideElement('map');
                             hideElement('cam');
                             hideElement('menuToggleSection');
@@ -159,18 +160,24 @@
                             hideElement('home');
                             hideElement('map');
                             showElement('cam');
+                            showElement('menuToggleSection');
                         }
 
                         function mapPressed() {
                             hideElement('home');
                             hideElement('cam');
+                            showElement('map');
+                            drawMap();
                             showElement('menuToggleSection');
                             
-                            showElement('map');
+                            
                         }
 
                         function toGame() {
+                            localStorage.userLoggedIn = "1";
+                            //showElement('debug_status');
                             mapPressed();
+                            //loginPressed();
                         }
 
 
@@ -194,7 +201,12 @@
                             localStorage.userLoggedIn = "1";
 
                             //console.log("LoginPressed");
-                            hideElement('login');
+                            hideElement('home');
+                            hideElement('cam');
+                            showElement('map');
+                            showElement('menuToggleSection');
+                            
+                            
                             showElement('debug_status');
                             //showElement('sideMenu');
 
