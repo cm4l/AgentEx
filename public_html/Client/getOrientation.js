@@ -72,13 +72,14 @@ function orientation(event) {
                                        setInterval(function(){route3dUpdateCameraPosition();},1000);
                                 }
 
-                                orientationDataToHTML();
-                                //lets see if localstorage is the problem
+                                //orientationDataToHTML();
+                                //
+//lets see if localstorage is the problem
                                 //document.getElementById('GammaX').innerHTML = event.gamma;
                                 //document.getElementById('BetaY').innerHTML = event.beta;
                                 //document.getElementById('AlphaC').innerHTML = event.alpha;
                                         //swap section based on new orientation
-                                sectionChangeOnOrientationChange();
+                                //sectionChangeOnOrientationChange(); //removed automatic section change / now only manual
                         
                             }
                         }
