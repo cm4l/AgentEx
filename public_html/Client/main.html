@@ -37,16 +37,16 @@
                 
             </div>  
         </section>
-        <!-- Onko millään tästä mitään käyttöä enää? -Tea-->
+       
         <section id="home">
             <div class="container">
 
                 <div class="bubble">
-                    {missionDescription} Alien invaders have left an artifact somewhere. Find it and erase it!
+                    {missionDescription}
                 </div>
                 <img src="images/agentti_torso_th.png" alt="agent"/>
                 <div>
-                    <button onclick="toGame();">Continue mission</button>
+                    <input id="continueButton" type="button" onclick="toGame();" value="Continue mission"/>
                 </div>
                 <div class="block">
                     <img id="playerImg" src="images/kysymysmerkki_g.png" alt="pelaajankuva"/>
@@ -80,7 +80,7 @@
                 </div>
 
             </div>
-
+            
             <div id="loginContainer" class="container">
                 <form name="theForm">
                     Username: <input type="text" name="user">
@@ -92,6 +92,7 @@
                     Webcam     <input id="radio2" type="radio" name="group1" value="cam" />
                 </form>
             </div>
+            
         </section>
 
         <section id="debug_status" class="hidden">
@@ -177,7 +178,7 @@
                             localStorage.userLoggedIn = "1";
                             //showElement('debug_status');
                             mapPressed();
-                            //loginPressed();
+                            document.getElementById("menuToggle").style.backgroundImage = "url('images/showmenu_button.png')";   
                         }
 
 
@@ -244,10 +245,12 @@
                         function runMenuToggle() {
                             if (isElementVisible('sideMenuSection')) {
                                 hideElement('sideMenuSection');
+                                document.getElementById("menuToggle").style.backgroundImage = "url('images/showmenu_button.png')";
                             } else {
                                 showElement('sideMenuSection');
+                                document.getElementById("menuToggle").style.backgroundImage = "url('images/hidemenu_button.png')";
                             }
-
+                            
 
 
                         }
