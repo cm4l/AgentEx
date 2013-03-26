@@ -8,15 +8,15 @@
 */
 
 
-var socket;
+var socket, writeLog;
 
 function startCommunication(user_id) {
-console.log("startCommunication called");
+writeLog("startCommunication called");
 
 socket = io.connect();
 
 socket.on('connect', function () {
-	console.log("connecting to the server");
+	writeLog("connecting to the server");
 	socket.emit("setName", user_id);
 	socket.emit( 'message', "got in!");
 
@@ -26,16 +26,16 @@ socket.on('connect', function () {
 });
 
 socket.on('disconnect', function(msg) {
-	console.log("disconnecting to the server");
+	writeLog("disconnecting to the server");
 });
 
 
 socket.on('message', function(msg) {
-	console.log("Communication: server sends '"+msg+"'");  //log
+	writeLog("Communication: server sends '"+msg+"'");  //log
 });
 
 socket.on('coordinateTables', function(msg) {
-	console.log("Communication: coordinates '"+msg+"'");
+	writeLog("Communication: coordinates '"+msg+"'");
 
 	localStorage.friends = msg;
 	route3d_addAllFriends();
@@ -54,6 +54,6 @@ socket.on('coordinateTables', function(msg) {
 
 
 function communicationSendToServer(msg) {
-	//console.log("Communication: will send message to the server '"+msg+"'");
+	//writeLog("Communication: will send message to the server '"+msg+"'");
 	socket.emit( 'message', msg);
 }

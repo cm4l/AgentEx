@@ -13,9 +13,10 @@
   is loaded from localStorage
 */
 
+/*globals writeLog*/
 
 function calcRoute(callback_function,mode) {
-console.log("LOG: function:calcRoute called");
+writeLog("LOG: function:calcRoute called");
 
 var directionsService = new google.maps.DirectionsService();
 var start = new google.maps.LatLng(localStorage.ownLatitude, localStorage.ownLongitude);
@@ -31,11 +32,11 @@ if end =="undefined" {
 //lets see what travelmode user wants for the route
 var travelModeGoogleStyle = google.maps.TravelMode.DRIVING;
 if (localStorage.calcRouteTravelMode == "Walk") {
-	//console.log("calcRoute: travelmode=walk");
+	//writeLog("calcRoute: travelmode=walk");
 	travelModeGoogleStyle = google.maps.TravelMode.WALKING;
 }
 else if (localStorage.calcRouteTravelMode == "Drive") {
-	//console.log("calcRoute: travelmode=drive");
+	//writeLog("calcRoute: travelmode=drive");
 	travelModeGoogleStyle = google.maps.TravelMode.DRIVING;
 }
 
@@ -47,7 +48,7 @@ var request = {
 	
 directionsService.route(request, function(result, status) {
 	if (status == google.maps.DirectionsStatus.OK) {
-		console.log("calcRoute: ready.");
+		writeLog("calcRoute: ready.");
 
 		if (mode==1) {
 			callback_function(result);
@@ -60,8 +61,8 @@ directionsService.route(request, function(result, status) {
 				//ovp is now "(lat, lon)"
 				var lat = parseFloat(ovp.substring(1,ovp.indexOf(",")));
 				var lon = parseFloat(ovp.substring(ovp.indexOf(",")+2,ovp.length-1));
-				//console.log("lat is "+lat);
-				//console.log("lon is "+lon);
+				//writeLog("lat is "+lat);
+				//writeLog("lon is "+lon);
 
 				//entries of 'array' are two-slot-arrays containing two floats
 				array.push([lat,lon]);
@@ -69,12 +70,12 @@ directionsService.route(request, function(result, status) {
 			callback_function(array);
 		}
 		else {
-			console.log("calcRoute: got route, but didn't know what to do for it");
+			writeLog("calcRoute: got route, but didn't know what to do for it");
 		}
 
 	} //end of DirectionsStatus.OK
 	else {
-		console.log("calcRoute: Didn't get route");
+		writeLog("calcRoute: Didn't get route");
 	}
 }); //end of directionsService.route
 

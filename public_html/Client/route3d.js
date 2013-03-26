@@ -3,7 +3,7 @@
  First call function 'route3dInit' with parameters target_element,width,height. (e.g. during init)
  Then add route and/or friends to the scene.
 */
-
+/*globals writeLog*/
 //'globals'
 var camera;
 var scene;
@@ -20,7 +20,7 @@ var entry_clicked = false; //this is almost hack. When menu-entry is clicked, we
 var menu_div;
 
 function route3dInit(target_element) {
-	console.log("route3dInit called");
+	writeLog("route3dInit called");
 	//Create camera, because its rotation is bind to the sensors
 	                // PerspectiveCamera(fov,    aspect,    near, far)
 	camera = new THREE.PerspectiveCamera(45,  window.innerWidth / window.innerHeight, 0.00001, 0.001); //camera sees from 1m to 100m (about)
@@ -76,14 +76,14 @@ function route3dInit(target_element) {
 
 
 function menu_entry_clicked(name){
-	//console.log("Button '"+name+"' clicked");
+	//writeLog("Button '"+name+"' clicked");
 	entry_clicked = true;
 	if (name.indexOf("WALK")>-1) {
-		//console.log("WALK mode selected");
+		//writeLog("WALK mode selected");
 		localStorage.calcRouteTravelMode = "Walk";
 	}
 	else {
-		//console.log("DRIVE mode selected");
+		//writeLog("DRIVE mode selected");
 		localStorage.calcRouteTravelMode = "Drive";
 	}
 
@@ -93,8 +93,8 @@ function menu_entry_clicked(name){
 function route3d_addAllFriends() {
        var user_table=JSON.parse(localStorage.friends);
        for (x in user_table)  {
-               //console.log(x);
-               //console.log(localStorage.sessionId);
+               //writeLog(x);
+               //writeLog(localStorage.sessionId);
 
                //do not add me, only friends
                if (x !== localStorage.sessionId){
@@ -109,14 +109,14 @@ function route3d_addAllFriends() {
 }
 
 function route3dAddRoute(array) {
-	console.log("route3dAddRoute called");
+	writeLog("route3dAddRoute called");
 
 	//remove existing route
 	if (route != null)
 		scene.remove(route)
 
 	if (array =="undefined") {
-		console.log("route3dAddRoute: route array empty, only removing old one");
+		writeLog("route3dAddRoute: route array empty, only removing old one");
 		return;
 	}
 
@@ -130,7 +130,7 @@ function route3dAddRoute(array) {
 		var lat = (array[x][0]);
 		var lon = (array[x][1]);
 	
-		//console.log("route3dDraw: point: "+lat +","+ lon);
+		//writeLog("route3dDraw: point: "+lat +","+ lon);
 		geometry.vertices.push(new THREE.Vector3(lon, 0, lat));
 
 	}
@@ -144,7 +144,7 @@ function route3dAddRoute(array) {
 }
 
 function route3dAddFriend(username,lat,lon) {
-	console.log("route3dAddFriend called "+lat+","+lon);
+	writeLog("route3dAddFriend called "+lat+","+lon);
 	var radius = 0.5, height = 0.5, segments = 16;
 	var geometry = new THREE.CylinderGeometry(0, radius, height, segments, segments, false);
         //var cube = new THREE.Mesh(new THREE.CubeGeometry(0.00001,0.00001,0.00001), new THREE.MeshBasicMaterial({color: 0x00ff00})); //1m3 cube
@@ -164,7 +164,7 @@ function route3dAddFriend(username,lat,lon) {
         
         //lets calculate distance to object here
         var dist = calcDistance(localStorage.ownLatitude,localStorage.ownLongitude,lat,lon);
-        console.log("distance to object "+object.name+" is "+dist+" km");
+        writeLog("distance to object "+object.name+" is "+dist+" km");
 }
 
 //shortcut for handling degrees and radians
@@ -183,7 +183,7 @@ function route3dUpdateCameraPosition(){
 	camera.rotation.x = (localStorage.orientationGammaX-90)*deg2rad; //this is -90 because device is turned 90 degrees when using camera mode
 
         //camera.lookAt(60.320938888984735,0,25.084144891275255);
-        //console.log("")
+        //writeLog("")
 
 	//If cam-view is not visible, do no more
 	if (!isElementVisible('cam')) {
@@ -196,7 +196,7 @@ function route3dUpdateCameraPosition(){
 
 	var txt = "Camera: (X,Y,Z) ("+camera.position.x+" , "+camera.position.y+" , "+camera.position.z+") ";
 	var txt2= "Rotation in degrees: (x,y,z) ("+ camera.rotation.x*degree+" , "+camera.rotation.y*degree+" , "+camera.rotation.z*degree+") ";
-	console.log(txt+txt2);
+	writeLog(txt+txt2);
 
 }
 
@@ -210,15 +210,15 @@ function onDocumentMouseDown( event ) {
 	event.preventDefault();
 
 	if (menu_visible) {
-		//console.log("Menu was visible");
+		//writeLog("Menu was visible");
 		menu_div.style.display = 'none';  //Hide
 		menu_visible = false;
 	}
 	/*else
-		console.log("Menu is not visible");*/
+		writeLog("Menu is not visible");*/
 
 	if (entry_clicked) { //this very same event is meant only for menu-entry
-		//console.log("do nothing more");
+		//writeLog("do nothing more");
 		entry_clicked = false;
 		return;
 	}
@@ -240,7 +240,7 @@ function onDocumentMouseDown( event ) {
 		//Assing targetCoordinates
 		var x = intersects[ 0 ].object.name;
 
-		//console.log("hit: "+intersects[ 0 ].object.name);
+		//writeLog("hit: "+intersects[ 0 ].object.name);
 
 		var user_table=JSON.parse(localStorage.friends);
 		var latitude = user_table[x].substring(0,user_table[x].indexOf(","));
@@ -250,7 +250,7 @@ function onDocumentMouseDown( event ) {
 		localStorage.targetLongitude = longitude;
 	}
 	else
-		console.log("miss");
+		writeLog("miss");
 }
 
 function onWindowResize() {

@@ -1,3 +1,5 @@
+/*globals writeLog */
+
 function passwordsMatch() {
     var pwd1, pwd2;
     pwd1 = $('#pwd1').val();
@@ -18,6 +20,8 @@ $(document).ready(function () {
         $('#loginDiv').addClass('hidden');
     });
 
+    writeLog("testing");
+
     $('#register').on('click', function () {
         if (passwordsMatch()) {
             $('#registerForm').submit();
@@ -26,12 +30,7 @@ $(document).ready(function () {
         }
     });
 
-    if (localStorage.clientId === undefined) {
-        localStorage.clientId = '1234567';
-    }
-    if (localStorage.name === undefined) {
-        localStorage.name = 'Testihenkilö';
-    }
+
     $('#clientId').val(localStorage.clientId);
     $('#name').val(localStorage.name);
     $('#pwd').val('salainensalasana');

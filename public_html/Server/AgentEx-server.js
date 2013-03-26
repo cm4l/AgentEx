@@ -236,6 +236,16 @@ function login(post, response, agentexId) {
     }
 }
 
+function writeRemoteLog(post, response) {
+    var success = false;
+    if (post !== undefined && post.msg !== undefined) {
+        console.log('CLIENT: ' + post.msg);
+        success = true;
+    }
+    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.end('success :' + success, 'utf-8');
+}
+
 function routeRequest(path, response, getData, postData, agentexId) {
     var filePath;
     filePath = '../Client';
@@ -249,6 +259,8 @@ function routeRequest(path, response, getData, postData, agentexId) {
         return register(postData, response);
     case '/Login':
         return login(postData, response, agentexId);
+    case '/Log':
+        return writeRemoteLog(postData, response);
     case '/main.html':
         if (agentexId === undefined) {
             console.log("ae undefined");
@@ -260,14 +272,13 @@ function routeRequest(path, response, getData, postData, agentexId) {
 }
 
 var server = http.createServer(function (request, response) {
-    console.log("LOG: requesting: '" + request.url + "'");
+    /*console.log("LOG: requesting: '" + request.url + "'");*/
     var getData, postData, urlData, filePath, querystring, data, cookies, agentexId;
     urlData = url.parse(request.url, true);
     getData = urlData.query;
     if (request.headers.cookie) {
         cookies = cookie.parse(request.headers.cookie);
         if (cookies.agentex_id !== undefined) {
-            console.log("Cookie found: " + cookies.agentex_id);
             agentexId = cookies.agentex_id;
         }
     }

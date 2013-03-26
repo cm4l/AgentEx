@@ -3,16 +3,17 @@
  Adds orientation event listener to window. 
  Orientation of the device is stored in localStorage here,
 */
+/*globals  writeLog */
 
 function getOrientation(){
-	console.log("getOrientation called");
+	writeLog("getOrientation called");
 
 	//debug: add keyboard handler to simulate sensors
 	document.onkeydown = handleKeyPresses;
-	console.log("debug: keyboard listener added");
+	writeLog("debug: keyboard listener added");
     
 	if (window.DeviceOrientationEvent) {
-		console.log("browser/device claims to support orientation events");
+		writeLog("browser/device claims to support orientation events");
                 
                
 
@@ -26,21 +27,16 @@ function getOrientation(){
                 
                 
 	} else {
-		console.log("DeviceOrientation is not supported");
+		writeLog("DeviceOrientation is not supported");
 	}
-
-
-            
-
-
 }
 function orientation(event) {
 			// gamma is the left-to-right tilt in degrees, where right is positive
-                        // console.log("Deviceorientation event triggered");
+                        // writeLog("Deviceorientation event triggered");
                         
                         try {
 
-                        //console.log(event.beta);
+                        //writeLog(event.beta);
 			//if ( eventData.gamma != null) //e.g. chrome on desktop sends null if there are no sensors
                                 if (navigator.appName = 'Opera'){
                                     //localStorage.orientationGammaX =  event.alpha;
@@ -84,7 +80,7 @@ function orientation(event) {
                             }
                         }
                         catch(err){
-                        console.log("DeviceOrientation error: "+err.message);
+                        writeLog("DeviceOrientation error: "+err.message);
                         }
                         
 
@@ -100,49 +96,49 @@ function handleKeyPresses(evt) {
         var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
         switch(evt.keyCode) {
         case 37:
-		console.log("left");
+		writeLog("left");
 		localStorage.ownLatitude = parseFloat(localStorage.ownLatitude) + 0.1;
 		break;
         case 39:
-		console.log("right");
+		writeLog("right");
 		localStorage.ownLatitude = parseFloat(localStorage.ownLatitude) - 0.1;
 		break;
         case 38:
-		console.log("up");
+		writeLog("up");
 		localStorage.ownLongitude = parseFloat(localStorage.ownLongitude) + 0.1;
 		break;
         case 40:
-		console.log("down");
+		writeLog("down");
 		localStorage.ownLongitude = parseFloat(localStorage.ownLongitude) - 0.1;
 		break;
 
 	case 65:
-		console.log("a");
+		writeLog("a");
 		localStorage.orientationAlphaCompass = parseFloat(localStorage.orientationAlphaCompass) + 1;
 		break;
 	case 68:
-		console.log("d");
+		writeLog("d");
 		localStorage.orientationAlphaCompass = parseFloat(localStorage.orientationAlphaCompass) - 1;
 		break;
 	case 87:
-		console.log("w");
+		writeLog("w");
 		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) + 1;
 		break;
 	case 83:
-		console.log("s");
+		writeLog("s");
 		localStorage.orientationGammaX = parseFloat(localStorage.orientationGammaX) - 1;
 		break;
 	case 81:
-		console.log("q");
+		writeLog("q");
 		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) + 1;
 		break;
 	case 69:
-		console.log("e");
+		writeLog("e");
 		localStorage.orientationBetaY = parseFloat(localStorage.orientationBetaY) - 1;
 		break;
 
 	default:
-		//console.log("evt.keyCode "+evt.keyCode );
+		//writeLog("evt.keyCode "+evt.keyCode );
 		break;
 	}
 
@@ -156,12 +152,12 @@ function handleKeyPresses(evt) {
 //For debugging: show values
 function orientationDataToHTML(){
 	/*
-	console.log(" debug: sensor values");
-	console.log("gammaX="+localStorage.orientationGammaX);
-	console.log("betaY="+localStorage.orientationBetaY);
-	console.log("alphaC="+localStorage.orientationAlphaCompass);
-	console.log("latitude="+localStorage.ownLatitude);
-	console.log("longitude="+localStorage.ownLongitude);
+	writeLog(" debug: sensor values");
+	writeLog("gammaX="+localStorage.orientationGammaX);
+	writeLog("betaY="+localStorage.orientationBetaY);
+	writeLog("alphaC="+localStorage.orientationAlphaCompass);
+	writeLog("latitude="+localStorage.ownLatitude);
+	writeLog("longitude="+localStorage.ownLongitude);
 	*/
 
 	document.getElementById("GammaX").innerHTML = localStorage.orientationGammaX;
@@ -173,11 +169,11 @@ function orientationDataToHTML(){
 
 
 function sectionChangeOnOrientationChange(){
-	console.log("sectionChangeOnOrientationChange called");
+	writeLog("sectionChangeOnOrientationChange called");
 	var o = parseInt(localStorage.orientationGammaX);
-	//console.log("orientation:"+o);
-	//console.log("map="+isElementVisible('map'));
-	//console.log("cam="+isElementVisible('cam'));
+	//writeLog("orientation:"+o);
+	//writeLog("map="+isElementVisible('map'));
+	//writeLog("cam="+isElementVisible('cam'));
         if (!isElementVisible('cam') && !isElementVisible('map')) {
             //if nothing is visible /might happend in the beginning
             showElement('map');
