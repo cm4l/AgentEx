@@ -196,7 +196,7 @@ function route3dUpdateCameraPosition(){
 
 	var txt = "Camera: (X,Y,Z) ("+camera.position.x+" , "+camera.position.y+" , "+camera.position.z+") ";
 	var txt2= "Rotation in degrees: (x,y,z) ("+ camera.rotation.x*degree+" , "+camera.rotation.y*degree+" , "+camera.rotation.z*degree+") ";
-	writeLog(txt+txt2);
+	//writeLog(txt+txt2);
 
 }
 

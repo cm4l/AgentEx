@@ -5,8 +5,8 @@
 */
 /*globals  writeLog */
 
-function getOrientation(){
-	writeLog("getOrientation called");
+function setOrientationListener(){
+	writeLog("setOrientationListener called");
 
 	//debug: add keyboard handler to simulate sensors
 	document.onkeydown = handleKeyPresses;

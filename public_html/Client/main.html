@@ -129,6 +129,9 @@
         <input id="targetLong" type="hidden" value="{targetLongitude}"/>
 
         <script>
+                window.onerror = function(message, url, linenumber) {
+                        writeLog("JavaScript error: " + message + " on line " + linenumber + " for " + url);
+                }
                         
                         function isElementVisible(id) {
                             var e = document.getElementById(id);
@@ -139,6 +142,7 @@
                                 return true;
                             else
                                 return false;
+
                         }
 
                         function showElement(id) {
@@ -164,6 +168,7 @@
                             hideElement('map');
                             showElement('cam');
                             showElement('menuToggleSection');
+                            webCam();
                         }
 
                         function mapPressed() {
@@ -192,7 +197,7 @@
                             fetchOwnCoords();
                             startCommunication(id);
                             localStorage.sessionId = id;
-                            getOrientation();
+                            setOrientationListener();
                             var placeholder = document.getElementById('route_3d');
                             //writeLog("placeholder ="+placeholder);
                             route3dInit(placeholder);
@@ -208,8 +213,6 @@
                             hideElement('cam');
                             showElement('map');
                             showElement('menuToggleSection');
-                            
-                            
                             showElement('debug_status');
                             //showElement('sideMenu');
 
