@@ -148,6 +148,15 @@ input[type=button], input[type=submit]{
 	width:100%;
 }
 
+#congratulationsContainer {
+    	z-index: 10;
+	position:absolute;
+	left:0px;
+	top:0px;
+	height:100%; 
+	width:100%;
+}
+
 #webCamCanvasFallback {
 	z-index: -10;
 	position:absolute;

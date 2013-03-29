@@ -83,15 +83,7 @@
             </div>
             
             <div id="loginContainer" class="container">
-                <form name="theForm">
-                    Username: <input type="text" name="user">
-                    <input type="button" value="Ready" onclick="loginPressed()"><br>
-                    <hr>
-                    (debug)<br>
-                    Use sensor <input id="radio3" type="radio" name="group1" value="sensor" checked="checked" />
-                    Map        <input id="radio1" type="radio" name="group1" value="map" />
-                    Webcam     <input id="radio2" type="radio" name="group1" value="cam" />
-                </form>
+                <input id="completeMission" type="button" onclick="congratulate();" value="Complete mission!"/>
             </div>
             
         </section>
@@ -123,6 +115,19 @@
             <div id="menuToggle" onclick="runMenuToggle();">
             </div>
 
+        </section>
+        
+        <section id="congratulations" class="hidden">
+            <div id="congratulationsContainer">
+                <div class="bubble">
+                    Congratulations! You have destroyed the artifact.
+                </div>
+                <img src="images/agentti_torso_th.png" alt="agent"/>
+                <form action="Complete" method="post">
+                    <input id="clientId" name="clientId" type="hidden"/>
+                    <input id="finishedButton" type="submit" value="OK"/>
+                </form>
+            </div>
         </section>
 
         <input id="targetLat" type="hidden" value="{targetLatitude}"/>
@@ -187,9 +192,14 @@
                             mapPressed();
                             document.getElementById("menuToggle").style.backgroundImage = "url('images/showmenu_button.png')";   
                         }
-
-
-
+                        
+                        function congratulate() {
+                            hideElement('home');
+                            hideElement('cam');
+                            hideElement('map');
+                            showElement('congratulations');
+                        }
+                        
                         function start() {
                             writeLog("<check> Main.html loaded successfully");
                             localStorage.userLoggedIn = "0";   //nollataan tässä     

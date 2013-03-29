@@ -236,6 +236,17 @@ function login(post, response, agentexId) {
     }
 }
 
+function addScore(agentexId, response){ //TODO: add check for max value
+    console.log('adding score to '+agentexId);
+    var players = readPlayers();
+    var playerToBeUpdated = getById(agentexId, players);
+    playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
+    playerToBeUpdated.missionCount = playerToBeUpdated.missionCount + 1;
+    savePlayers(players);
+    response.writeHead(301, { 'Location': 'main.html'});
+    response.end();
+}
+
 function writeRemoteLog(post, response) {
     var success = false;
     if (post !== undefined && post.msg !== undefined) {
@@ -261,6 +272,8 @@ function routeRequest(path, response, getData, postData, agentexId) {
         return login(postData, response, agentexId);
     case '/Log':
         return writeRemoteLog(postData, response);
+    case '/Complete':
+        return addScore(agentexId, response);
     case '/main.html':
         if (agentexId === undefined) {
             console.log("ae undefined");
