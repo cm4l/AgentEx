@@ -1,10 +1,12 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
+//distance in kilometres
+var ALERT_DISTANCE = 0.05;
 
-
+function checkDistance(playerLat, playerLon, targetLat, targetLon) {
+	if ( calcDistance(playerLat, playerLon, targetLat, targetLon) < ALERT_DISTANCE ) {
+		//if only we had vibration support
+	}
+}
 
 function calcDistance(lat1,lon1,lat2,lon2){
     var deg2rad = Math.PI / 180;
