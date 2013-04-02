@@ -161,6 +161,10 @@ function route3dAddFriend(username,lat,lon) {
 
 	scene.add( object );
 	friend_objects.push( object );
+	
+	//use this to add a modeled artifact instead
+	//we really need that mission-building infra, though
+	//addArtifactToScene(scene, "models/artifact01", lat, lon);
         
         //lets calculate distance to object here
         var dist = calcDistance(localStorage.ownLatitude,localStorage.ownLongitude,lat,lon);
