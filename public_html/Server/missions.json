@@ -1,15 +1,14 @@
 [
-	
 	{
 		"id": 1,
-		"description": "This is the second task, located on Kolmensepan aukio. Alien invaders have left an artifact somewhere. Find it and erase it!",
+		"description": "This is the first task, located on Kolmensepan aukio. Alien invaders have left an artifact somewhere. Find it and erase it!",
 		"lat": "60.168671",
 		"long": "24.941089",
                 "3dObjectName":"asdf"
 	},
         {
 		"id": 2,
-		"description": "This is the first task, located in Esplanadin puisto. Alien invaders have left an artifact somewhere. Find it and erase it!",
+		"description": "This is the second task, located in Esplanadin puisto. Alien invaders have left an artifact somewhere. Find it and erase it!",
 		"lat": "60.167497", 
 		"long": "24.947612",
                 "3dObjectName":"asdf"
@@ -23,9 +22,9 @@
 	},
         {
 		"id": 4,
-		"description": "This is the third task, located on Senaatintori. Alien invaders have left an artifact somewhere. Find it and erase it!",
+		"description": "This is the fourth task, located on Senaatintori. Alien invaders have left an artifact somewhere. Find it and erase it!",
 		"lat": "60.169631",
 		"long": "24.951947",
                 "3dObjectName":"asdf"
-	},
+	}
 ]
