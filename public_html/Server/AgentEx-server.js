@@ -11,7 +11,6 @@ var http = require('http'),
     cookie = require('cookie'),
     whiskers = require('whiskers');
 
-
 function readPlayers() {
     var playersText = fs.readFileSync('players.json', 'utf8');
     return JSON.parse(playersText);
@@ -57,15 +56,17 @@ function personalizeMainPage(template, agentexId) {
         mission,
         player = getPlayerWithId(agentexId);
 
+    console.log('personalizeMainPage ' + agentexId);
     if (player !== undefined) {
         mission = getMissionById(player.currentMission);
+        console.log('player current mission ' + player.currentMission);
         context = {
-            missionDescription : mission.description,
-            name : player.name,
-            rank : player.rank,
-            missionCount  : player.missionCount,
-            targetLatitude : mission.lat,
-            targetLongitude : mission.long
+            missionDescription: mission.description,
+            name: player.name,
+            rank: player.rank,
+            missionCount: player.missionCount,
+            targetLatitude: mission.lat,
+            targetLongitude: mission.long
 
         };
         return whiskers.render(template, context);
@@ -77,17 +78,17 @@ function getContentType(filePath) {
     var extname;
     extname = path.extname(filePath);
     switch (extname) {
-    case '.js':
-        return 'text/javascript';
-    case '.css':
-        return 'text/css';
-    case '.jpg':
-    case '.jpeg':
-        return 'image/jpeg';
-    case '.png':
-        return 'image/png';
-    default:
-        return 'text/html';
+        case '.js':
+            return 'text/javascript';
+        case '.css':
+            return 'text/css';
+        case '.jpg':
+        case '.jpeg':
+            return 'image/jpeg';
+        case '.png':
+            return 'image/png';
+        default:
+            return 'text/html';
     }
 }
 
@@ -101,11 +102,12 @@ function serveFile(filePath, response, agentexId) {
                     response.writeHead(500);
                     response.end();
                 } else {
-
                     if (filePath === '../Client/main.html') {
                         content = personalizeMainPage(content, agentexId);
                     }
-                    response.writeHead(200, { 'Content-Type': contentType });
+                    response.writeHead(200, {
+                        'Content-Type': contentType
+                    });
                     response.end(content, 'utf-8');
                 }
             });
@@ -168,7 +170,9 @@ function register(post, response) {
     }
     if (id !== '') {
         response.setHeader("Set-Cookie", ["agentex_id=" + id]);
-        response.writeHead(301, { 'Location': 'main.html'});
+        response.writeHead(301, {
+            'Location': 'main.html'
+        });
         response.end();
     } else {
         serveFile('../Client/index.html', response);
@@ -229,21 +233,32 @@ function login(post, response, agentexId) {
         }
     }
     if (authorized) {
-        response.writeHead(301, { 'Location': 'main.html'});
+        response.writeHead(301, {
+            'Location': 'main.html'
+        });
         response.end();
     } else {
         serveFile('../Client/index.html', response);
     }
 }
 
-function addScore(agentexId, response){ //TODO: add check for max value
-    console.log('adding score to '+agentexId);
+function addScore(agentexId, response) { //TODO: add check for max value
+    console.log('adding score to ' + agentexId);
+
     var players = readPlayers();
     var playerToBeUpdated = getById(agentexId, players);
-    playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
+    var missionsNumber = 4;
+    if ((playerToBeUpdated.currentMission + 1) <= missionsNumber) {
+        playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
+    } else {
+        playerToBeUpdated.currentMission = 1;
+    }
     playerToBeUpdated.missionCount = playerToBeUpdated.missionCount + 1;
+
     savePlayers(players);
-    response.writeHead(301, { 'Location': 'main.html'});
+    response.writeHead(301, {
+        'Location': 'main.html'
+    });
     response.end();
 }
 
@@ -253,7 +268,9 @@ function writeRemoteLog(post, response) {
         console.log('CLIENT: ' + post.msg);
         success = true;
     }
-    response.writeHead(200, { 'Content-Type': 'application/json' });
+    response.writeHead(200, {
+        'Content-Type': 'application/json'
+    });
     response.end('success :' + success, 'utf-8');
 }
 
@@ -261,26 +278,26 @@ function routeRequest(path, response, getData, postData, agentexId) {
     var filePath;
     filePath = '../Client';
     switch (path) {
-    case '/':
-        if (agentexId !== undefined) {
-            return login(postData, response, agentexId);
-        }
-        return serveFile(filePath + '/index.html', response);
-    case '/Register':
-        return register(postData, response);
-    case '/Login':
-        return login(postData, response, agentexId);
-    case '/Log':
-        return writeRemoteLog(postData, response);
-    case '/Complete':
-        return addScore(agentexId, response);
-    case '/main.html':
-        if (agentexId === undefined) {
-            console.log("ae undefined");
+        case '/':
+            if (agentexId !== undefined) {
+                return login(postData, response, agentexId);
+            }
             return serveFile(filePath + '/index.html', response);
-        }
-    default:
-        return serveFile(filePath + path, response, agentexId);
+        case '/Register':
+            return register(postData, response);
+        case '/Login':
+            return login(postData, response, agentexId);
+        case '/Log':
+            return writeRemoteLog(postData, response);
+        case '/Complete':
+            return addScore(agentexId, response);
+        case '/main.html':
+            if (agentexId === undefined) {
+                console.log("ae undefined");
+                return serveFile(filePath + '/index.html', response);
+            }
+        default:
+            return serveFile(filePath + path, response, agentexId);
     }
 }
 
@@ -320,15 +337,15 @@ io.set('transports');
 
 // log level 0 or 1 : info output
 // 2: debug output
-io.set( 'log level', 2 );
+io.set('log level', 2);
 
 //contains userids and coordinates
 var user_table = {};
 
 function sendCoordinatesToEverybody() {
-	var txt = JSON.stringify(user_table);
-	/*console.log(txt);*/
-	io.sockets.emit('coordinateTables',txt);
+    var txt = JSON.stringify(user_table);
+    /*console.log(txt);*/
+    io.sockets.emit('coordinateTables', txt);
 }
 
 
@@ -345,42 +362,42 @@ function sendCoordinatesToEverybody() {
     *sendCoordinatesToEverybody
 */
 io.sockets.on('connection', function (socket) {
-	console.log('connection established');
-	socket.emit('message', "connected to the server" );
+    console.log('connection established');
+    socket.emit('message', "connected to the server");
 
-	socket.on('setName', function (name) {
-		socket.set('nickname', name, function () {
-			//socket.emit('ready');
-		});
-	});
+    socket.on('setName', function (name) {
+        socket.set('nickname', name, function () {
+            //socket.emit('ready');
+        });
+    });
 
 
-	socket.on('setCoordinates', function (msg) {
-		socket.get('nickname', function (err, name) {
-			//console.log("setting coordinate ");
-			user_table[name] = msg;
+    socket.on('setCoordinates', function (msg) {
+        socket.get('nickname', function (err, name) {
+            //console.log("setting coordinate ");
+            user_table[name] = msg;
 
-			//inform everybody
-			sendCoordinatesToEverybody();
-		});
-	});
+            //inform everybody
+            sendCoordinatesToEverybody();
+        });
+    });
 
-	socket.on('disconnect', function () {
-		socket.get('nickname', function (err, name) {
-			console.log(name +" disconnected");
-			delete user_table[name];
+    socket.on('disconnect', function () {
+        socket.get('nickname', function (err, name) {
+            console.log(name + " disconnected");
+            delete user_table[name];
 
-			//inform everybody
-			sendCoordinatesToEverybody();
-		});
-	});
+            //inform everybody
+            sendCoordinatesToEverybody();
+        });
+    });
 
-	//just for chatting
-	socket.on('message', function (msg) {
-		socket.get('nickname', function (err, name) {
-			console.log(name+": "+msg);
-		});
-	});
+    //just for chatting
+    socket.on('message', function (msg) {
+        socket.get('nickname', function (err, name) {
+            console.log(name + ": " + msg);
+        });
+    });
 });
 
 
@@ -394,4 +411,3 @@ user_table["debug_person6"] = "60.16184,24.93676";
 user_table["debug_person7"] = "60.16,24.93676";
 user_table["debug_person8"] = "60.16084,24.93626";
 user_table["debug_person9"] = "60.16084,24.93726";
-
