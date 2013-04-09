@@ -56,9 +56,11 @@ function personalizeMainPage(template, agentexId) {
         context,
         mission,
         player = getPlayerWithId(agentexId);
-
+        
+        console.log('personalizeMainPage '+agentexId);
     if (player !== undefined) {
         mission = getMissionById(player.currentMission);
+        console.log('player current mission '+player.currentMission);
         context = {
             missionDescription : mission.description,
             name : player.name,
@@ -238,10 +240,18 @@ function login(post, response, agentexId) {
 
 function addScore(agentexId, response){ //TODO: add check for max value
     console.log('adding score to '+agentexId);
+    
     var players = readPlayers();
     var playerToBeUpdated = getById(agentexId, players);
-    playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
+    var missionsNumber = 4;
+    if ((playerToBeUpdated.currentMission +1) <= missionsNumber) {
+        playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
+    }
+    else {
+        playerToBeUpdated.currentMission = 1;
+    }
     playerToBeUpdated.missionCount = playerToBeUpdated.missionCount + 1;
+    
     savePlayers(players);
     response.writeHead(301, { 'Location': 'main.html'});
     response.end();
