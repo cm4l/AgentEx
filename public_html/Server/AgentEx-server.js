@@ -238,22 +238,28 @@ function login(post, response, agentexId) {
     }
 }
 
-function addScore(agentexId, response){ //TODO: add check for max value
+function addScore(agentexId, response){  
     console.log('adding score to '+agentexId);
-    
+    var missionsCompleted = false;
     var players = readPlayers();
     var playerToBeUpdated = getById(agentexId, players);
-    var missionsNumber = 4;
-    if ((playerToBeUpdated.currentMission +1) <= missionsNumber) {
+    var missionsNumber = 5;
+    if ((playerToBeUpdated.currentMission +1) < missionsNumber) {
         playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
     }
     else {
+        missionsCompleted = true;
         playerToBeUpdated.currentMission = 1;
     }
     playerToBeUpdated.missionCount = playerToBeUpdated.missionCount + 1;
     
     savePlayers(players);
-    response.writeHead(301, { 'Location': 'main.html'});
+    if (missionsCompleted) {
+        response.writeHead(301, { 'Location': 'missionLevelCompleted.html'});
+    }
+    else {
+        response.writeHead(301, { 'Location': 'main.html'});
+    }
     response.end();
 }
 
