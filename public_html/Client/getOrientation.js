@@ -62,9 +62,9 @@ function orientation(event) {
         if (localStorage.userLoggedIn == "1") {
             // for debugging: show values
             if (isElementVisible('cam')) {
-                setInterval(function () {
-                    route3dUpdateCameraPosition();
-                }, 1000);
+                
+                    ar_updateCameraPosition();
+               
             }
 
             //orientationDataToHTML();
@@ -140,7 +140,7 @@ function handleKeyPresses(evt) {
             break;
     }
 
-    route3dUpdateCameraPosition();
+    ar_updateCameraPosition();
     orientationDataToHTML();
     sectionChangeOnOrientationChange();
 }
