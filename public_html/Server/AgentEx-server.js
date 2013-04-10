@@ -88,6 +88,8 @@ function getContentType(filePath) {
             return 'image/jpeg';
         case '.png':
             return 'image/png';
+        case '.wav':
+            return 'audio/wav';
         default:
             return 'text/html';
     }
