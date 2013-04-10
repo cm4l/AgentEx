@@ -10,7 +10,6 @@
         <script src="external_js_libraries/three/three.min.js"></script>
         <script src="logging.js" type="text/javascript"></script>
         <script src="location.js"></script>
-        <script src="sideMenu.js"></script>
 		<script src="artifact3d.js"></script>
         <script src="calcRoute.js"></script>
         <script src="route3d.js"></script>
@@ -21,6 +20,7 @@
         <script src="drawMap.js"></script>
         <script src="fetchOwnCoords.js"></script>
         <script src="external_js_libraries/contextmenu/ContextMenu.js"></script>
+        <script src="main.js" type="text/javascript"></script>
         <link href='http://fonts.googleapis.com/css?family=Jura:400,600' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="default.css">                   
     </head>
@@ -107,7 +107,7 @@
             <canvas id="webCamCanvasFallback"></canvas>
             <video id="webCamCanvas" autoplay="autoplay"></video>
 
-            <div id="route_3d"></div>
+            <div id="arCanvas"></div>
         </section>
 
 
@@ -130,147 +130,8 @@
                 </form>
             </div>
         </section>
-
+        <input id="artifactId" type="hidden" value="{artifactId}" />
         <input id="targetLat" type="hidden" value="{targetLatitude}"/>
         <input id="targetLong" type="hidden" value="{targetLongitude}"/>
-
-        <script>
-                window.onerror = function(message, url, linenumber) {
-                        writeLog("JavaScript error: " + message + " on line " + linenumber + " for " + url);
-                }
-                        
-                        function isElementVisible(id) {
-                            var e = document.getElementById(id);
-                            var state = window.getComputedStyle(e).display;
-                            //console.log (state);
-
-                            if (state != 'none')
-                                return true;
-                            else
-                                return false;
-
-                        }
-
-                        function showElement(id) {
-                            $('#' + id).removeClass('hidden');
-                        }
-
-                        function hideElement(id) {
-                            $('#' + id).addClass('hidden');
-                        }
-
-                        function homePressed() {
-                            localStorage.userLoggedIn = "0";
-                            hideElement('map');
-                            hideElement('cam');
-                            hideElement('menuToggleSection');
-                            hideElement('sideMenuSection');
-                            
-                            showElement('home');
-                        }
-                        
-                        function cameraPressed() {
-                            hideElement('home');
-                            hideElement('map');
-                            showElement('cam');
-                            showElement('menuToggleSection');
-                            webCam();
-                        }
-
-                        function mapPressed() {
-                            hideElement('home');
-                            hideElement('cam');
-                            showElement('map');
-                            drawMap();
-                            showElement('menuToggleSection');
-                            
-                            
-                        }
-
-                        function toGame() {
-                            localStorage.userLoggedIn = "1";
-                            //showElement('debug_status');
-                            mapPressed();
-                            document.getElementById("menuToggle").style.backgroundImage = "url('images/showmenu_button.png')";   
-                        }
-                        
-                        function congratulate() {
-                            hideElement('home');
-                            hideElement('cam');
-                            hideElement('map');
-                            showElement('congratulations');
-                        }
-                        
-                        function start() {
-                            writeLog("<check> Main.html loaded successfully");
-                            localStorage.userLoggedIn = "0";   //nollataan tässä     
-                            var id = Math.random();
-                            fetchOwnCoords();
-                            startCommunication(id);
-                            localStorage.sessionId = id;
-                            setOrientationListener();
-                            var placeholder = document.getElementById('route_3d');
-                            //writeLog("placeholder ="+placeholder);
-                            route3dInit(placeholder);
-                            
-                        }
-
-                        function loginPressed() {
-
-                            localStorage.userLoggedIn = "1";
-
-                            //writeLog("LoginPressed");
-                            hideElement('home');
-                            hideElement('cam');
-                            showElement('map');
-                            showElement('menuToggleSection');
-                            showElement('debug_status');
-                            //showElement('sideMenu');
-
-
-                            var formfield = document.theForm.group1;
-                            var startingOrientation = "default";
-                            for (i = 0; i < formfield.length; i++)
-                                if (formfield[i].checked == true)
-                                    startingOrientation = formfield[i].value;
-                            //writeLog(startingOrientation);
-                            //getOrientation();
-
-                            //This is the default case (we just trust sensors and getOrientation)
-                            if (startingOrientation == 'sensor') {
-                                return;
-                            }
-
-                            // These are useful if there are no sensors (even browser claims to support them)
-                            if (startingOrientation == 'map') {
-                                localStorage.orientationGammaX = -50;
-                            }
-                            else {
-                                localStorage.orientationGammaX = -40;
-                            }
-
-                            //some sane default values
-                            localStorage.orientationAlphaCompass = 0; //look to the north
-                            localStorage.orientationBetaY = 0; //suppose screen is landscaped
-
-                            //sectionChangeOnOrientationChange();
-                            //orientationDataToHTML();
-                        }
-
-
-                        function runMenuToggle() {
-                            if (isElementVisible('sideMenuSection')) {
-                                hideElement('sideMenuSection');
-                                document.getElementById("menuToggle").style.backgroundImage = "url('images/showmenu_button.png')";
-                            } else {
-                                showElement('sideMenuSection');
-                                document.getElementById("menuToggle").style.backgroundImage = "url('images/hidemenu_button.png')";
-                            }
-                            
-
-
-                        }
-                        window.onload = start();
-        </script> 
     </body>
 </html>
