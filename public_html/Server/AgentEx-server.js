@@ -66,7 +66,8 @@ function personalizeMainPage(template, agentexId) {
             rank: player.rank,
             missionCount: player.missionCount,
             targetLatitude: mission.lat,
-            targetLongitude: mission.long
+            targetLongitude: mission.lon,
+            artifactId:mission.ARobjectName
 
         };
         return whiskers.render(template, context);
