@@ -19,7 +19,7 @@ var menu_visible = false;
 var entry_clicked = false; //this is almost hack. When menu-entry is clicked, we want prevent 'global' document listener to trig
 var menu_div;
 
-function route3dInit(target_element) {
+function route3dInit() {
     writeLog("route3dInit called");
     //Create camera, because its rotation is bind to the sensors
     // PerspectiveCamera(fov,    aspect,    near, far)
@@ -31,7 +31,10 @@ function route3dInit(target_element) {
     //renderer = new THREE.WebGLRenderer();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    target_element.appendChild(renderer.domElement); //TODO Uncaught TypeError: Cannot call method 'appendChild' of null 
+
+
+    $('#arCanvas').append(renderer.domElement);
+    //target_element.appendChild(renderer.domElement); //TODO Uncaught TypeError: Cannot call method 'appendChild' of null 
 
     //  camera.position.set(localStorage.ownLongitude, 0, localStorage.ownLatitude);
     //camera.position.set(localStorage.ownLongitude*10, 0.1, -localStorage.ownLatitude*10);
@@ -48,30 +51,6 @@ function route3dInit(target_element) {
     document.addEventListener('mousedown', onDocumentMouseDown, false);
     window.addEventListener('resize', onWindowResize, false);
     route3dUpdateCameraPosition();
-
-
-    //Create context-menu (walk and drive) for friends
-    menu_div = document.createElement("div");
-    menu_div.style.position = "absolute";
-    menu_div.style.zIndex = "14";
-    menu_div.style.background = "white";
-    menu_div.style.display = 'none'; //Hidden
-
-    var walk_entry = document.createElement("span");
-    walk_entry.innerHTML = "WALK<br>";
-    walk_entry.onmousedown = function () {
-        menu_entry_clicked("WALK");
-    };
-    menu_div.appendChild(walk_entry);
-
-    var drive_entry = document.createElement("span");
-    drive_entry.innerHTML = "DRIVE";
-    drive_entry.onmousedown = function (event) {
-        menu_entry_clicked("DRIVE");
-    };
-    menu_div.appendChild(drive_entry);
-
-    document.body.appendChild(menu_div);
 }
 
 

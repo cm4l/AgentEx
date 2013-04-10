@@ -69,9 +69,7 @@ function start() {
     startCommunication(id);
     localStorage.sessionId = id;
     setOrientationListener();
-    var placeholder = document.getElementById('route_3d');
-    //writeLog("placeholder ="+placeholder);
-    route3dInit(placeholder);
+    route3dInit();
 
 }
 
