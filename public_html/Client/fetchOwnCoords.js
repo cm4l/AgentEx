@@ -6,25 +6,27 @@
 */
 /*globals writeLog*/
 
-function fetchOwnCoords() {
-    writeLog("LOG: fetchOwnCoords called");
+function updateLocation() {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        localStorage.ownLatitude = latitude;
+        localStorage.ownLongitude = longitude;
+        writeLog("updated ownCoords=" + latitude + "," + longitude);
+    });
+}
+
+function fetchAndFollowOwnCoords() {
+    writeLog("LOG: fetchAndFollowOwnCoords called");
 
     if (navigator.geolocation) {
         writeLog("LOG: fetchOwnCoords: geolocation works");
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            //coords = new google.maps.LatLng(latitude, longitude);
-            //localStorage.ownCoords=coords;
-            //writeLog("LOG: stored ownCoords="+coords.toString());
-
-            localStorage.ownLatitude = latitude;
-            localStorage.ownLongitude = longitude;
-            writeLog("LOG: stored ownCoords=" + latitude + "," + longitude);
-
-        });
+        updateLocation();
+        setInterval(function () {
+            updateLocation();
+        }, 6000 ); //6 seconds
     } else {
-        writeLog("LOG: fetchOwnCoords: geolocation doesn't work");
+        writeLog("fetchOwnCoords: geolocation doesn't work");
         alert("Geolocation API is not supported in your browser.");
 
         //Fallback: somewhere near Helsinki-Vantaa Airport
@@ -34,12 +36,4 @@ function fetchOwnCoords() {
         localStorage.ownLongitude = longitude;
         writeLog("LOG: stored ownCoords=" + latitude + "," + longitude);
     }
-
-
-}
-
-function updateLocation() {
-
-
-
 }

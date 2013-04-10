@@ -65,7 +65,7 @@ function start() {
     writeLog("<check> Main.html loaded successfully");
     localStorage.userLoggedIn = "0"; //nollataan tässä     
     var id = Math.random();
-    fetchOwnCoords();
+    fetchAndFollowOwnCoords();
     startCommunication(id);
     localStorage.sessionId = id;
     setOrientationListener();
