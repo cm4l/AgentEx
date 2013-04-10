@@ -69,7 +69,7 @@ function start() {
     startCommunication(id);
     localStorage.sessionId = id;
     setOrientationListener();
-    route3dInit();
+    ar_initScene();
 
 }
 
