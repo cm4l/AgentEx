@@ -44,9 +44,6 @@ function startCommunication(user_id) {
             drawMap();
         }
 
-        //menuobject list is also updated when change occurs
-        //updateObjectList();
-
     });
 
 } //startCommunication ends

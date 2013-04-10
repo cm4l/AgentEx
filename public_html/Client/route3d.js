@@ -31,7 +31,7 @@ function route3dInit(target_element) {
     //renderer = new THREE.WebGLRenderer();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    target_element.appendChild(renderer.domElement);
+    target_element.appendChild(renderer.domElement); //TODO Uncaught TypeError: Cannot call method 'appendChild' of null 
 
     //  camera.position.set(localStorage.ownLongitude, 0, localStorage.ownLatitude);
     //camera.position.set(localStorage.ownLongitude*10, 0.1, -localStorage.ownLatitude*10);
@@ -165,7 +165,7 @@ function route3dAddFriend(username, lat, lon) {
     object.position.y = 0; //have to calculate how much we want to raise the object
     object.position.z = -lat;
 
-    scene.add(object);
+    scene.add(object); //TODO Uncaught TypeError: Cannot call method 'add' of undefined 
     friend_objects.push(object);
 
     //use this to add a modeled artifact instead
