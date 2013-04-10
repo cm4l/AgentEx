@@ -48,6 +48,7 @@ function mapPressed() {
 }
 
 function toGame() {
+    playProximityAlert();
     localStorage.userLoggedIn = "1";
     //showElement('debug_status');
     mapPressed();
@@ -65,7 +66,7 @@ function start() {
     writeLog("<check> Main.html loaded successfully");
     localStorage.userLoggedIn = "0"; //nollataan tässä     
     var id = Math.random();
-    fetchOwnCoords();
+    trackOwnCoords();
     startCommunication(id);
     localStorage.sessionId = id;
     setOrientationListener();
