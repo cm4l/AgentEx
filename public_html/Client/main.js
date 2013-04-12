@@ -44,7 +44,6 @@ function mapPressed() {
     hideElement('cam');
     showElement('map');
     showElement('menuToggleSection');
-    drawMap();
 }
 
 function toGame() {
@@ -76,12 +75,12 @@ function start() {
     localStorage.userLoggedIn = "0"; //nollataan tässä     
     var id = Math.random();
     storeTargetCoordinates();
+    drawMap();
     trackOwnCoords();
     //startCommunication(id);
     localStorage.sessionId = id;
     setOrientationListener();
     ar_initScene();
-
 }
 
 function loginPressed() {
