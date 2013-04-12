@@ -1,4 +1,4 @@
-/*globals writeLog*/
+/*globals writeLog, moveMyMarkerOnMap*/
 //distance in kilometres
 var ALERT_DISTANCE = 0.05;
 var proximityNotified = false;
@@ -55,6 +55,7 @@ function updateLocation() {
         localStorage.ownLongitude = longitude;
         writeLog("updated ownCoords=" + latitude + "," + longitude);
         checkDistance(latitude, longitude);
+        moveMyMarkerOnMap(latitude, longitude);
     });
 }
 

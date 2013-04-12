@@ -8,7 +8,14 @@
  drawRoute():
   Draws route between own and target's coordinates.
 */
-/*globals writeLog*/
+/*globals writeLog, google*/
+var myMarker, map;
+
+function moveMyMarkerOnMap(lat, lon) {
+    var coordinates = new google.maps.LatLng(lat, lon);
+    myMarker.setPosition(coordinates);
+    map.panTo(coordinates);
+}
 
 function drawMap() {
     writeLog("LOG: drawMap called");
@@ -60,7 +67,7 @@ function drawMap() {
             //writeLog("This is me!")
             desc = "Your current location!";
             thisIsFriend = false;
-            var marker = new google.maps.Marker({
+            myMarker = new google.maps.Marker({
                 position: friendCoords,
                 map: map,
                 icon: "/images/ownLocation.gif",

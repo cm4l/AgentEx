@@ -48,7 +48,6 @@ function mapPressed() {
 }
 
 function toGame() {
-    playProximityAlert();
     localStorage.userLoggedIn = "1";
     //showElement('debug_status');
     mapPressed();
