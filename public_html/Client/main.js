@@ -67,7 +67,7 @@ function start() {
     localStorage.userLoggedIn = "0"; //nollataan tässä     
     var id = Math.random();
     trackOwnCoords();
-    startCommunication(id);
+    //startCommunication(id);
     localStorage.sessionId = id;
     setOrientationListener();
     ar_initScene();

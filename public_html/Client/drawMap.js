@@ -19,7 +19,14 @@ function drawMap() {
     var ownLon = localStorage.ownLongitude;
     var coords = new google.maps.LatLng(ownLat, ownLon);
 
-    var user_table = JSON.parse(localStorage.friends);
+    //var user_table = JSON.parse(localStorage.friends);
+    //since we dont use user table anymore lets just add the örkki and now choise 2 is for debug
+    //var user_table = $('#targetLat').val()+","+$('#targetLong').val(); //(1)
+    var user_table = [];
+    
+    user_table["orkki"] = (parseFloat(localStorage.ownLatitude)+0.0005)+","+localStorage.ownLongitude; //(2)
+    user_table[localStorage.sessionId] =  localStorage.ownLatitude +","+localStorage.ownLongitude;
+    
     //writeLog("drawMap: friendsJSON="+localStorage.friends);
 
     var mapOptions = {

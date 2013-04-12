@@ -64,7 +64,8 @@ function orientation(event) {
             if (isElementVisible('cam')) {
                 
                     ar_updateCameraPosition();
-               
+                    //writeLog("Camera position updated");
+                   
             }
 
             //orientationDataToHTML();

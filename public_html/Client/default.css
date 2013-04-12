@@ -175,7 +175,7 @@ input[type=button], input[type=submit]{
 	width:100%;
 }
 
-#route_3d {
+#arCanvas {
 	z-index: 13;
 	position:absolute;
 	left:0px;
