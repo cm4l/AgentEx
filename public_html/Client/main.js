@@ -43,8 +43,8 @@ function mapPressed() {
     hideElement('home');
     hideElement('cam');
     showElement('map');
-    drawMap();
     showElement('menuToggleSection');
+    drawMap();
 }
 
 function toGame() {
@@ -61,10 +61,21 @@ function congratulate() {
     showElement('congratulations');
 }
 
+function storeTargetCoordinates() {
+    var lat, lon;
+    lat = $('#targetLat').val();
+    lon = $('#targetLong').val();
+    writeLog("storeTargetCoordinates: " + lat + lon);
+    localStorage.targetLong = lon;
+    localStorage.targetLat = lat;
+}
+
+
 function start() {
     writeLog("<check> Main.html loaded successfully");
     localStorage.userLoggedIn = "0"; //nollataan tässä     
     var id = Math.random();
+    storeTargetCoordinates();
     trackOwnCoords();
     //startCommunication(id);
     localStorage.sessionId = id;
@@ -122,4 +133,7 @@ function runMenuToggle() {
         document.getElementById("menuToggle").style.backgroundImage = "url('images/hidemenu_button.png')";
     }
 }
-window.onload = start();
+
+$(document).ready(function () {
+    start();
+});
