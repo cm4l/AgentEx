@@ -244,6 +244,9 @@ input[type=button], input[type=submit]{
     font-size:0.7em;
 }
 
+#menuButtonDiv {
+    padding-top: 50px;
+}
 
 .menuImg {
     float: left;
