@@ -32,6 +32,6 @@ $(document).ready(function () {
 
 
     $('#clientId').val(localStorage.clientId);
-    $('#name').val(localStorage.name);
-    $('#pwd').val('salainensalasana');
+    //$('#name').val(localStorage.name);
+    //$('#pwd').val('salainensalasana');
 });
