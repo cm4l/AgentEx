@@ -62,13 +62,13 @@ function startScene(geometry) {
 	//object.name = username;
         // for debugpurposes lets add also one next to the user (50 meters north)
         
-        //ar_object.position.x = $('#targetLong').val();
-        //ar_object.position.y = 0; //have to calculate how much we want to raise the object
-        //ar_object.position.z = -$('#targetLat').val();
-    
-        ar_object.position.x = localStorage.ownLongitude;
+        ar_object.position.x = $('#targetLong').val();
         ar_object.position.y = 0; //have to calculate how much we want to raise the object
-        ar_object.position.z = -(parseFloat(localStorage.ownLatitude)+0.0005);
+        ar_object.position.z = -$('#targetLat').val();
+    
+        //ar_object.position.x = localStorage.ownLongitude;
+        //ar_object.position.y = 0; //have to calculate how much we want to raise the object
+        //ar_object.position.z = -(parseFloat(localStorage.ownLatitude)+0.0005);
          
         
         //ar_object.position.set(10,0,-10);
