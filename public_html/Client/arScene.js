@@ -123,7 +123,7 @@ function ar_onArtifactClick(event){
     ar_projector.unprojectVector(vector, ar_camera);
     writeLog('vector x' + vector.x+'vector y' + vector.y+'vector z' + vector.z);
         var dir = vector.sub(ar_camera.position).normalize(); //direction
-    //dir.z = -(dir.z);
+    dir.z = -(dir.z);
     //alert('x '+event.clientX+" y "+event.clientY+"inner width and height "+window.innerWidth+":"+window.innerHeight);
     var raycaster = new THREE.Raycaster(ar_camera.position, dir);
     //var raycaster = new THREE.Raycaster(ar_camera.position, ar_object.position);

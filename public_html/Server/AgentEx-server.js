@@ -298,6 +298,7 @@ function routeRequest(path, response, getData, postData, agentexId) {
         case '/Log':
             return writeRemoteLog(postData, response);
         case '/Complete':
+            console.log("/Complete");
             return addScore(agentexId, response);
         case '/main.html':
             if (agentexId === undefined) {

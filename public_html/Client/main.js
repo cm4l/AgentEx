@@ -36,6 +36,11 @@ function cameraPressed() {
     hideElement('map');
     showElement('cam');
     showElement('menuToggleSection');
+    if(targetInProximity){
+        writeLog("Target is in proximity");
+        setTimeout(function() { showElement('destroy') }, 5000); //5sec
+    }
+    
     webCam();
 }
 
@@ -58,6 +63,7 @@ function congratulate() {
     hideElement('home');
     hideElement('cam');
     hideElement('map');
+    hideElement('destroy');
     showElement('congratulations');
 }
 

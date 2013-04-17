@@ -1,7 +1,8 @@
 /*globals writeLog, moveMyMarkerOnMap*/
 //distance in kilometres
-var ALERT_DISTANCE = 0.05;
+var ALERT_DISTANCE = 0.1;
 var proximityNotified = false;
+var targetInProximity= false;
 
 function calcDistance(lat1, lon1, lat2, lon2) {
     var deg2rad = Math.PI / 180;
@@ -27,6 +28,7 @@ function playProximityAlert() {
         writeLog("Play sound!");
         var sound = new Audio("audio/9695__suonho__suonho-scaryscape-01.wav");
         sound.play();
+        targetInProximity=true;
         proximityNotified = true; //for not playing the sound too many
     }
 }
