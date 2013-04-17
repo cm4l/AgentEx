@@ -37,7 +37,7 @@ function orientation(event) {
         //if ( eventData.gamma != null) //e.g. chrome on desktop sends null if there are no sensors
         if (navigator.appName = 'Opera') {
             //localStorage.orientationGammaX =  event.alpha;
-            localStorage.orientationGammaX = event.gamma;
+            localStorage.orientationGammaX = event.beta;
         } else {
 
             localStorage.orientationGammaX = event.gamma;
@@ -45,7 +45,7 @@ function orientation(event) {
         // beta is the front-to-back tilt in degrees, where front is positive
         //if (eventData.beta != null)
         if (navigator.appName = 'Opera') {
-            localStorage.orientationBetaY = event.beta;
+            localStorage.orientationBetaY = event.gamma;
         } else {
             localStorage.orientationBetaY = event.beta;
         }
@@ -68,7 +68,7 @@ function orientation(event) {
                    
             }
 
-            //orientationDataToHTML();
+            orientationDataToHTML();
             //
             //lets see if localstorage is the problem
             //document.getElementById('GammaX').innerHTML = event.gamma;
@@ -142,7 +142,7 @@ function handleKeyPresses(evt) {
     }
 
     ar_updateCameraPosition();
-    orientationDataToHTML();
+    //orientationDataToHTML();
     sectionChangeOnOrientationChange();
 }
 
