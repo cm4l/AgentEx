@@ -57,7 +57,7 @@ function updateLocation() {
         localStorage.ownLongitude = longitude;
         writeLog("updated ownCoords=" + latitude + "," + longitude);
         checkDistance(latitude, longitude);
-        if (isElementVisible('cam')){
+        if (isElementVisible('map')){
             moveMyMarkerOnMap(latitude, longitude);
         };
     });
