@@ -1,24 +1,24 @@
 [{
 	"id": 1,
-	"description": "This is the first task, located on Kolmensepan aukio. Alien invaders have left an artifact somewhere. Find it and erase it!",
+	"description": "This is the first task, located on Kolmensepan aukio. Alien invaders have left an artifact somewhere. <b>Find it and erase it!</b>",
 	"lat": "60.168671",
 	"lon": "24.941089",
 	"ARobjectName": "models/artefact01.js"
 }, {
 	"id": 2,
-	"description": "This is the second task, located in Esplanadin puisto. Alien invaders have left an artifact somewhere. Find it and erase it!",
+	"description": "This is the second task, located in Esplanadin puisto. Alien invaders have left an artifact somewhere. <b>Find it and erase it!</b>",
 	"lat": "60.167497",
 	"lon": "24.947612",
 	"ARobjectName": "models/artefact02.js"
 }, {
 	"id": 3,
-	"description": "This is the third task, located on Kauppatori. Alien invaders have left an artifact somewhere. Find it and erase it!",
+	"description": "This is the third task, located on Kauppatori. Alien invaders have left an artifact somewhere. <b>Find it and erase it!</b>",
 	"lat": "60.167529",
 	"lon": "24.954607",
 	"ARobjectName": "models/artefact01.js"
 }, {
 	"id": 4,
-	"description": "This is the fourth task, located on Senaatintori. Alien invaders have left an artifact somewhere. Find it and erase it!",
+	"description": "This is the fourth task, located on Senaatintori. Alien invaders have left an artifact somewhere. <b>Find it and erase it!</b>",
 	"lat": "60.169631",
 	"lon": "24.951947",
 	"ARobjectName": "models/artefact02.js"
