@@ -1,4 +1,4 @@
-/* This file is part of Friendfind.
+    /* This file is part of Friendfind.
 
  Adds orientation event listener to window. 
  Orientation of the device is stored in localStorage here,
@@ -68,7 +68,7 @@ function orientation(event) {
                    
             }
 
-            orientationDataToHTML();
+            //orientationDataToHTML();
             //
             //lets see if localstorage is the problem
             //document.getElementById('GammaX').innerHTML = event.gamma;
@@ -143,7 +143,7 @@ function handleKeyPresses(evt) {
 
     ar_updateCameraPosition();
     //orientationDataToHTML();
-    sectionChangeOnOrientationChange();
+    //sectionChangeOnOrientationChange();
 }
 
 

@@ -9,11 +9,16 @@
   Draws route between own and target's coordinates.
 */
 /*globals writeLog, google*/
-var myMarker, targetMarker, map, directionsDisplay;
+    var myMarker, targetMarker, map, directionsDisplay;
 
 function moveMyMarkerOnMap(lat, lon) {
+    //localStorage.targetLatitude = parseFloat(localStorage.targetLatitude)+0.0001;
+    //var coordinates = new google.maps.LatLng(localStorage.targetLatitude, lon);
     var coordinates = new google.maps.LatLng(lat, lon);
-    myMarker.setPosition(coordinates);
+    myMarker.setMap(null);
+    addMyLocation(coordinates);
+    //myMarker.setPosition(coordinates); // this doesnt work for some reason....
+    //google.maps.event.trigger(map, 'resize');
 }
 
 function addContextMenuForTarget() {

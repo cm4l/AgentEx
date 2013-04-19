@@ -49,6 +49,7 @@ function checkDistance(playerLat, playerLon) {
 
 function updateLocation() {
     navigator.geolocation.getCurrentPosition(function (position) {
+        
         var latitude, longitude;
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
@@ -57,6 +58,7 @@ function updateLocation() {
         localStorage.ownLongitude = longitude;
         writeLog("updated ownCoords=" + latitude + "," + longitude);
         checkDistance(latitude, longitude);
+        
         if (isElementVisible('map')){
             moveMyMarkerOnMap(latitude, longitude);
         };
@@ -74,7 +76,7 @@ function trackOwnCoords() {
         }, 6000); //6 seconds
     } else {
         writeLog("fetchOwnCoords: geolocation doesn't work");
-        alert("Geolocation API is not supported in your browser.");
+        alert("Geolocati    on API is not supported in your browser.");
 
         //Fallback: somewhere near Helsinki-Vantaa Airport
         var latitude = 60.3,
