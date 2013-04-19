@@ -1,5 +1,5 @@
 body {
-	padding: 2%;
+	padding: 2% ;
 	color: purple;
 	background-color: white ;
 	height: 100%;
@@ -12,13 +12,21 @@ button {
 	font-family: 'Jura', sans-serif;
 }
 
-h1{
+h2{
 	margin:0;
 	padding:0;
 }
 
 a {
 	color: blue;
+}
+
+hr{
+	margin-top: 2em;
+	color: #F7EFF7;
+	background-color: #F7EFF7;
+	border: none;
+	height: 3px;
 }
 
 a:hover {
@@ -29,13 +37,14 @@ img{
 	display:block;
 	margin: 0.1em 1em 0.2em 0;
 	float:right;
-	width:35%;
+	width:30%;
 }
 
 #playerImg{
 	float:left;
-        border-style: solid;
-        border-width: 1px;
+	margin-top: 2em;
+    border-style: solid;
+    border-width: 1px;
 }
 
 section {
@@ -67,7 +76,7 @@ input[type=button], input[type=submit]{
 	padding:5px;
 	font-size: medium;
 	color:white;
-	margin-top:1%;
+	margin-top: 2%;
 	background: -webkit-linear-gradient(#757575, #4b4b4b); /* Safari 5.1+, Chrome 10+ */  
 	background: -o-linear-gradient(#757575, #4b4b4b);/* Opera*/
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#757575', endColorstr='#4b4b4b'); /*IE*/
@@ -79,7 +88,17 @@ input[type=button], input[type=submit]{
 }
 
 #continueButton{
-    width: 50%;
+    width: 55%;
+    margin-top: 1em;
+	height: 70px;
+	font-weight: bold;
+}
+
+#toRegister, #toLogin{
+    width: 55%;
+    margin-top: 1em;
+	height: 70px;
+	font-weight: bold;
 }
 
 .container{
@@ -89,8 +108,8 @@ input[type=button], input[type=submit]{
 
 .bubble {
 	position:relative;
-	padding:15px;
-	margin: 1em 0 0.5em 0;
+	padding:10px;
+	margin: 0.4em 0 0 0;
 	color:#000;
 	background:#F7EFF7;/*orange: #f3961c;*/
 
@@ -126,8 +145,13 @@ input[type=button], input[type=submit]{
         clear: both;
 }
 
-#playerInfo{
-        list-style: none;
+.playerInfo{
+    list-style: none;
+    margin-top: 3em;
+    margin-right: 2.7em;
+    float:right;
+    padding-left:0;
+    text-align:left
 }
 
 #debug_status, #destroy {

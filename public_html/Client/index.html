@@ -12,16 +12,15 @@
 
 <body>
 	<div class="container">
-		<h1>AgentEx</h1>
-		
+
 		<div class="bubble">
 			Welcome to MIB! We need you to collect artifacts to help us stop the alien invasion. Give your codename and we'll give you a mission.
 		</div>
+		
 		<img src="images/agentti_torso_th.png"alt="agent"/>
-		<div id="loginDiv" style="clear:both;">
-			<p style="text-align:right">
-				<a id="toRegister" href="" onclick="return false;">Register</a>
-			</p>
+		<div id="loginDiv">
+			<input id="toRegister" type="button" value="To Register"/>
+			<p></p>
 			<form action="Login" method="post">
 				<label for="name">Codename</label></br>
 				<input id="name" name="name" type= "text"></input></br>
@@ -31,10 +30,9 @@
 				<input id="clientId" name="clientId" type="hidden"/>
 			</form>
 		</div>
-		<div id="registerDiv" class="hidden" style="clear:both;">
-			<p style="text-align:right">
-				<a href="" id="toLogin" onclick="return false;">Log in</a>
-			</p>
+		<div id="registerDiv" class="hidden">
+			<input id="toLogin" type="button" value="To Login"/>
+			<p></p>
 			<form id="registerForm" action="Register" method="post">
 				<label for="name">Codename</label></br>
 				<input id="name" name="name" type= "text"></input></br>
@@ -44,14 +42,6 @@
 				<input id="pwd2" name="pwd2" type="password"></input></br>
 				<input id="register" type="button" onclick="return false;" value="Register"></input>
 			</form>
-		</div>
-
-		<div id="disclaimer" class="disclaimer">
-			Following this link: your geolocation, webcam, accelerometer data (and so on) are captured.
-			Press only if you agree with all terms of license.
-			If there are any bugs in the code, you are responsible for them.
-			THIS SECTION OF THE LICENSING AGREEMENT IS WRITTEN IN ALL CAPS TO MAKE
-			IT APPEAR MORE LEGAL. IT ISN'T. YES YES
 		</div>
 	</div>
 </body>

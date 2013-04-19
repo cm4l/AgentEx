@@ -91,6 +91,33 @@ function ar_render() {
 //	setScene();
 //});
 
+function updateMatrices() {
+	ar_camera.updateMatrix();
+	ar_camera.updateMatrixWorld();
+	ar_camera.matrixWorldInverse.getInverse(ar_camera.matrixWorld);
+	
+	for (var i=0; i < ar_objectsArray.length; ++i) {
+		ar_objectsArray[i].updateMatrix();
+		ar_objectsArray[i].updateMatrixWorld();
+	}	
+}
+
+function isObjectInView() {
+	
+	updateMatrices(); //need to update matrices or might get nonsense answers
+	
+	var frustum = new THREE.Frustum();
+	frustum.setFromMatrix( new THREE.Matrix4().multiply(ar_camera.projectionMatrix, ar_camera.matrixWorldInverse) );
+	
+	for (var i=0; i < ar_objectsArray.length; ++i) { 
+		var object = ar_objectsArray[i];
+		
+		if ( frustum.contains(object) ) {
+			return true; // we should only have one object anyway
+		}
+	}
+	return false;
+}
 
 function ar_onArtifactClick(event){
     
