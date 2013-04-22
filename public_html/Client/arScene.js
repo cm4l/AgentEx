@@ -125,7 +125,7 @@ function artifactScreenCoordinates() {
 	
 	//project artifact position on camera plane
 	var projector = new THREE.Projector();
-	var vector = projector.projectVector( object.matrixWorld.getPosition().clone(), ar_camera);
+	var vector = projector.projectVector( ar_object.matrixWorld.getPosition().clone(), ar_camera);
 	
 	//convert Normalized Device Coordinates to screen coordinates
 	var x = (vector.x * widthHalf) + widthHalf;
