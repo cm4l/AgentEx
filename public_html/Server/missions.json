@@ -1,32 +1,13 @@
-[{
-	"id": 1,
-	"description": "This is the first task. Alien invaders have left an artifact to Kolmensepan aukio. <b>Find it and erase it!</b>",
-	"lat": "60.168671",
-	"lon": "24.941089",
-	"ARobjectName": "models/artefact01.js"
-}, {
-	"id": 2,
-	"description": "This is the second task. Alien invaders have left an artifact to Esplanadin puisto. <b>Find it and erase it!</b>",
-	"lat": "60.167497",
-	"lon": "24.947612",
-	"ARobjectName": "models/artefact02.js"
-}, {
-	"id": 3,
-	"description": "This is the third task. Alien invaders have left an artifact to Kauppatori. <b>Find it and erase it!</b>",
-	"lat": "60.167529",
-	"lon": "24.954607",
-	"ARobjectName": "models/artefact01.js"
-}, {
-	"id": 4,
-	"description": "This is the fourth task. Alien invaders have left an artifact to Senaatintori. <b>Find it and erase it!</b>",
-	"lat": "60.169631",
-	"lon": "24.951947",
-	"ARobjectName": "models/artefact02.js"
-},
-{
-	"id": 5,
-	"description": "This is the final task. Alien invaders have left an artifact to Siltasaari. <b>Find it and erase it!</b>",
-	"lat": "60.1777995",
-	"lon": "24.9478082",
-	"ARobjectName": "models/artefact01.js"
-}]
+ [{
+ 		"id": 1,
+ 			"description": "This is the second task. Alien invaders have left an artifact to Ernst Lindelöfin street (meteorological institute). <b>Find it and erase it!</b>",
+ 				"lat": "60.204431",
+ 					"lon": "24.960841",
+ 						"ARobjectName": "models/artefact02.js"
+ }, {    
+ 	        "id": 2,
+ 	        	"description": "This is the first task. Alien invaders have left an artifact to Exactum maindoors. <b>Find it and erase it!</b>",
+ 	        		"lat": "60.204695",
+ 	        			"lon": "24.962214",
+ 	        				"ARobjectName": "models/artefact01.js"
+ }]
