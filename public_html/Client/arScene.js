@@ -39,9 +39,9 @@ function ar_initScene() {
 
 		//document.getElementById('arCanvas').appendChild(ar_renderer.domElement);
 		$('#arCanvas').append(ar_renderer.domElement);
-		$('#arCanvas').mousedown(ar_onArtifactClick);
+		//$('#arCanvas').mousedown(ar_onArtifactClick);
 		
-		//$('#arCanvas').mousedown(ar_onArClick);  // this one might work
+		$('#arCanvas').mousedown(ar_onArClick);  // this one might work
 
 		window.addEventListener('resize', onWindowResize, false);
 
@@ -154,6 +154,7 @@ function ar_onArClick(event) {
 	
 	if ( isHit(event.clientX, event.clientY) ) {
 		writeLog("hit");
+		congratulate();
 	}
 	else {
 		writeLog("miss");

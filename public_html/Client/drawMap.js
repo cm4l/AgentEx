@@ -93,8 +93,10 @@ function addTargetLocation() {
     targetCoords = new google.maps.LatLng(localStorage.targetLat, localStorage.targetLong);
     targetMarker = new google.maps.Marker({
         position: targetCoords,
+        icon: "/images/ownLocation.gif",
         map: map,
-        title: "Destroy the Artifact!"
+        title: "Destroy the Artifact!",
+        optimized: false
     });
     addContextMenuForTarget();
 }
@@ -103,7 +105,7 @@ function addMyLocation(coordinates) {
     myMarker = new google.maps.Marker({
         position: coordinates,
         map: map,
-        icon: "/images/ownLocation.gif",
+        icon: "/images/hat.png",
         title: "Your current location!",
         optimized: false
     });

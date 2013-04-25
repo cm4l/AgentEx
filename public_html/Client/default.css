@@ -40,6 +40,12 @@ img{
 	width:30%;
 }
 
+#completeMission{
+	display:block;
+	margin: 0;
+	float:left;
+}
+
 #playerImg{
 	float:left;
 	margin-top: 2em;
@@ -154,13 +160,22 @@ input[type=button], input[type=submit]{
     text-align:left
 }
 
-#debug_status, #destroy {
+#debug_status{
 	z-index: 15;
 	position:absolute;
 	top:100px;
 	background: transparent;
+	border:solid red;
 	width:200px;
 	height:200px;
+}
+
+#destroy {
+	z-index: 15;
+	position:absolute;
+	top:0px;
+	padding:0px;
+	background: transparent;
 }
 
 #mapContainer {
