@@ -250,7 +250,7 @@ function addScore(agentexId, response){
     var missionsCompleted = false;
     var players = readPlayers();
     var playerToBeUpdated = getById(agentexId, players);
-    var missionsNumber = 5;
+    var missionsNumber = 3;
     if ((playerToBeUpdated.currentMission +1) < missionsNumber) {
         playerToBeUpdated.currentMission = playerToBeUpdated.currentMission + 1;
     }
