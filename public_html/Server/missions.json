@@ -1,12 +1,12 @@
  [{
  		"id": 1,
- 			"description": "This is the second task. Alien invaders have left an artifact to Ernst Lindelöfin street (meteorological institute). <b>Find it and erase it!</b>",
+ 			"description": "This is the first task. Alien invaders have left an artifact to Ernst Lindelöfin street next to meteorological institute. <b>Find it and erase it!</b>",
  				"lat": "60.204431",
  					"lon": "24.960841",
  						"ARobjectName": "models/artefact02.js"
  }, {    
  	        "id": 2,
- 	        	"description": "This is the first task. Alien invaders have left an artifact to Exactum maindoors. <b>Find it and erase it!</b>",
+ 	        	"description": "This is the second task. Alien invaders have left an artifact to Exactum maindoors. <b>Find it and erase it!</b>",
  	        		"lat": "60.204695",
  	        			"lon": "24.962214",
  	        				"ARobjectName": "models/artefact01.js"
