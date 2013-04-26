@@ -67,6 +67,42 @@ function congratulate() {
     showElement('congratulations');
 }
 
+function openInstructions(){
+    hideElement('home');
+    showElement('instructions');
+    showFirstInstruction();
+}
+
+function closeInstructions(){
+    hideElement('instructions');
+    showElement('home');
+}
+
+function showFirstInstruction() {
+    var text = document.getElementById('instruction_text');
+    text.innerHTML="When you start your mission you get to map view. There is an\n\
+                    animated marker at the artifact\'s location.";
+    var img = document.getElementById("instruction_img");
+    img.src="images/instructions_how_to_use_map.jpg";
+}
+
+function showSecondInstruction() {
+    var text = document.getElementById('instruction_text');
+    text.innerHTML="Tap the bar on the right to reveal a side menu.\n\
+                    You can switch between map and camera using the buttons.\n\
+                    You can also get back to mission description.";
+    var img = document.getElementById("instruction_img");
+    img.src="images/instructions_to_sidemenu.jpg";
+}
+
+function showThirdInstruction() {
+    var text = document.getElementById('instruction_text');
+    text.innerHTML="When you get close to the artifact you hear a sound.\n\
+                    Use the camera to find the artifact and destroy it by tapping it.";
+    var img = document.getElementById("instruction_img");
+    img.src="images/instructions_how_to_destroy.jpg";
+}
+
 function storeTargetCoordinates() {
     var lat, lon;
     lat = $('#targetLat').val();

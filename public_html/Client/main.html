@@ -51,9 +51,9 @@
                     {missionDescription}
                 </div>
                 <img src="images/agentti_torso_th.png" alt="agent"/>
-                <div>
-                    <input id="continueButton" type="button" class="toMission" onclick="toGame();" value="To mission"/>
-                </div>
+                
+                    <input id="continueButton" type="button" onclick="toGame();" value="To mission"/>
+                    <input id="openInstructionsButton" type="button" onclick="openInstructions();" value="Help"/>
                 <div class="block">
                     <hr/>
                     <img id="playerImg" src="images/kysymysmerkki_g.png" alt="pelaajankuva"/>
@@ -111,6 +111,23 @@
                     <input id="clientId" name="clientId" type="hidden"/>
                     <input id="finishedButton" type="submit" value="OK"/>
                 </form>
+            </div>
+        </section>
+        
+        <section id="instructions" class ="hidden">
+            Lessons:
+            <div id="instructionsMenu">
+                <input id="instructionButton1" type="button" onclick="showFirstInstruction();" value="1"/>
+                <input id="instructionButton2" type="button" onclick="showSecondInstruction();" value="2"/>
+                <input id="instructionButton3" type="button" onclick="showThirdInstruction();" value="3"/>
+                <input id="closeInstructionsButton" type="button" onclick="closeInstructions();" value="Close"/>
+            </div>
+            
+            <div id="instructions_content">         
+                <img id="instruction_img" src="images/instructions_how_to_use_map.jpg" alt="Screenshot of artifact"/>
+                <div class="instructions_textarea">
+                    <p id="instruction_text">Instructions</p>
+                </div>
             </div>
         </section>
         

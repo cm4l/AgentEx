@@ -94,10 +94,11 @@ input[type=button], input[type=submit]{
 }
 
 #continueButton{
-    width: 55%;
+    width: 100px;
     margin-top: 1em;
-	height: 70px;
-	font-weight: bold;
+    height: 70px;
+    font-weight: bold;
+    float: left;
 }
 
 #toRegister, #toLogin{
@@ -291,4 +292,56 @@ input[type=button], input[type=submit]{
     float: left;
     width: 50px;
     height: 50px;
+}
+
+#openInstructionsButton {
+    width: 50px;
+    height: 70px;
+    float: right;
+    margin-top: 1em;
+    margin-right: 1em;
+}
+
+#instructionsMenu{
+    max-width: 418px;
+    height: 50px;
+}
+
+#closeInstructionsButton {
+    width: 75px;
+    float: right;
+}
+
+#instructionButton1 {
+    width: 40px;
+    position: absolute;
+    left: 20px;
+}
+
+#instructionButton2 {
+    width: 40px;
+    position: absolute;
+    left: 70px;
+}
+
+#instructionButton3 {
+    width: 40px;
+    position: absolute;
+    left: 120px;
+}
+
+#instructions_content {
+    max-width: 418px;
+    margin:0 auto;
+}
+
+#instruction_img {
+    width: 174px;
+    height: 256px;
+    float: left;
+}
+
+.instructions_textarea {
+    width: 100px;
+    float: left;
 }
